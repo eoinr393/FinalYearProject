@@ -1,0 +1,25 @@
+﻿<Properties StartupItem="Assembly-CSharp.csproj">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\UnityNEAT\UnityNEAT\Assets\SharpNEAT\Optimizer.cs">
+    <Files>
+      <File FileName="Assets\UnityNEAT\UnityNEAT\Assets\CarExperiment\CarController.cs" Line="1" Column="1" />
+      <File FileName="Assets\MyScene\BodyController.cs" Line="87" Column="61" />
+      <File FileName="Assets\UnityNEAT\UnityNEAT\Assets\CarExperiment\SimpleExperiment.cs" Line="1" Column="1" />
+      <File FileName="Assets\MyScene\FoodBehaviour.cs" Line="17" Column="24" />
+      <File FileName="Assets\UnityNEAT\UnityNEAT\Assets\CarExperiment\SimpleEvaluator.cs" Line="1" Column="1" />
+      <File FileName="Assets\MyScene\evaluator.cs" Line="26" Column="9" />
+      <File FileName="Assets\MyScene\Experiment.cs" Line="47" Column="3" />
+      <File FileName="Assets\UnityNEAT\UnityNEAT\Assets\SharpNEAT\Optimizer.cs" Line="158" Column="44" />
+      <File FileName="Assets\UnityNEAT\UnityNEAT\Assets\Resources\experiment.config.xml" Line="1" Column="1" />
+      <File FileName="Assets\MyScene\CameraChange.cs" Line="1" Column="1" />
+      <File FileName="Assets\MyScene\SphereMove.cs" Line="19" Column="45" />
+      <File FileName="Assets\UnityNEAT\UnityNEAT\Assets\SharpNEAT\Phenomes\IBlackBox.cs" Line="65" Column="13" />
+      <File FileName="Assets\UnityNEAT\UnityNEAT\Assets\SharpNEAT\Phenomes\ISignalArray.cs" Line="1" Column="1" />
+      <File FileName="Assets\UnityNEAT\UnityNEAT\Assets\SharpNEAT\Phenomes\SignalArray.cs" Line="111" Column="35" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+</Properties>
