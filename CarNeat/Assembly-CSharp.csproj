@@ -52,6 +52,7 @@
      <Compile Include="Assets\MyScene\SphereMove.cs" />
      <Compile Include="Assets\MyScene\evaluator.cs" />
      <Compile Include="Assets\Steering\Perceptron.cs" />
+     <Compile Include="Assets\Steering\SteeringReynolds.cs" />
      <Compile Include="Assets\Steering\SteeringScript.cs" />
      <Compile Include="Assets\UnityNEAT\UnityNEAT\Assets\BallExperiment\BallController.cs" />
      <Compile Include="Assets\UnityNEAT\UnityNEAT\Assets\CarExperiment\CarController.cs" />
