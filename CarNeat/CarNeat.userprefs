@@ -9,8 +9,8 @@
       <File FileName="Assets\MyScene\evaluator.cs" Line="1" Column="1" />
       <File FileName="Assets\MyScene\Experiment.cs" Line="1" Column="1" />
       <File FileName="Assets\Steering\Perceptron.cs" Line="1" Column="1" />
-      <File FileName="Assets\Steering\SteeringScript.cs" Line="14" Column="2" />
-      <File FileName="Assets\Steering\SteeringReynolds.cs" Line="50" Column="3" />
+      <File FileName="Assets\Steering\SteeringScript.cs" Line="1" Column="1" />
+      <File FileName="Assets\Steering\SteeringReynolds.cs" Line="25" Column="43" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
