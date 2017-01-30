@@ -22,9 +22,9 @@ public class SteeringReynolds : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		
-		Steer (manualTarget.transform.position);
+		//Steer (manualTarget.transform.position);
 		//Flee (manualTarget.transform.position);
-		//Wander(manualTarget);
+		Wander();
 		//Evade(manualTarget);
 		//Pursuit (manualTarget);
 	}

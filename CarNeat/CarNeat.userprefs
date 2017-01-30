@@ -1,16 +1,16 @@
 ﻿<Properties StartupItem="Assembly-CSharp.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Steering\SteeringReynolds.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\UnityNEAT\UnityNEAT\Assets\SharpNEAT\Optimizer.cs">
     <Files>
       <File FileName="Assets\UnityNEAT\UnityNEAT\Assets\CarExperiment\CarController.cs" Line="1" Column="1" />
       <File FileName="Assets\MyScene\BodyController.cs" Line="1" Column="1" />
       <File FileName="Assets\UnityNEAT\UnityNEAT\Assets\CarExperiment\SimpleExperiment.cs" Line="1" Column="1" />
       <File FileName="Assets\UnityNEAT\UnityNEAT\Assets\CarExperiment\SimpleEvaluator.cs" Line="1" Column="1" />
       <File FileName="Assets\MyScene\evaluator.cs" Line="1" Column="1" />
-      <File FileName="Assets\MyScene\Experiment.cs" Line="1" Column="1" />
-      <File FileName="Assets\Steering\Perceptron.cs" Line="1" Column="1" />
-      <File FileName="Assets\Steering\SteeringScript.cs" Line="1" Column="1" />
-      <File FileName="Assets\Steering\SteeringReynolds.cs" Line="25" Column="43" />
+      <File FileName="Assets\MyScene\Experiment.cs" Line="140" Column="68" />
+      <File FileName="Assets\UnityNEAT\UnityNEAT\Assets\Resources\experiment.config.xml" Line="1" Column="1" />
+      <File FileName="Assets\UnityNEAT\UnityNEAT\Assets\SharpNEAT\Optimizer.cs" Line="20" Column="28" />
+      <File FileName="Assets\MyScene\CameraChange.cs" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

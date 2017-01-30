@@ -32,7 +32,7 @@ public class Evaluator : IPhenomeEvaluator<IBlackBox> {
 	{
 		if (optimizer != null)
 		{
-
+			optimizer.TrialDuration = optimizer.TrialDuration * 2;
 			optimizer.Evaluate(box);
 			yield return new WaitForSeconds(optimizer.TrialDuration);
 			optimizer.StopEvaluation(box);
