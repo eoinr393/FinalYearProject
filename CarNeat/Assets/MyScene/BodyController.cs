@@ -20,7 +20,6 @@ public class BodyController : UnitController {
 
 	// Use this for initialization
 	void Start () {
-		print ("here1");
 		initalDist = (goalPos - this.transform.position).magnitude;
 	}
 
@@ -32,9 +31,9 @@ public class BodyController : UnitController {
 
 			ISignalArray inputArr = box.InputSignalArray;
 
-			inputArr [0] = this.GetComponent<HingeJoint>().transform.eulerAngles.x;
-			inputArr [1] = this.GetComponent<HingeJoint>().transform.eulerAngles.y;
-			inputArr [2] = this.GetComponent<HingeJoint>().transform.eulerAngles.z;
+			inputArr [0] = this.GetComponent<HingeJoint>().connectedBody.transform.eulerAngles.x;
+			inputArr [1] = this.GetComponent<HingeJoint>().connectedBody.transform.eulerAngles.y;
+			inputArr [2] = this.GetComponent<HingeJoint>().connectedBody.transform.eulerAngles.z;
 
 			inputArr [3] = transform.eulerAngles.x;
 			inputArr [4] = transform.eulerAngles.y;
@@ -63,7 +62,10 @@ public class BodyController : UnitController {
 			print ("steerZ" + steerZ);
 
 
-			this.GetComponent<HingeJoint>().transform.Rotate (new Vector3 (steerX, steerZ, 0));
+			//this.GetComponent<HingeJoint>().transform.Rotate (new Vector3 (steerX, steerZ, 0));
+			this.GetComponent<HingeJoint>().connectedBody.transform.Rotate(new Vector3 (steerX, steerZ, 0) * Time.deltaTime);
+
+			//this.GetComponent<HingeJoint>().connectedBody.AddForce(new Vector3 (steerX, steerZ, 0));
 
 			/*
 			foreach (Transform child in transform) {
@@ -91,7 +93,7 @@ public class BodyController : UnitController {
 		
 		float curDist = (goalPos - this.transform.position).magnitude;
 
-		print (curDist);
+		print ("helllooooooo " + curDist);
 
 		float fit = Mathf.Clamp (initalDist - curDist, 0, 200);
 

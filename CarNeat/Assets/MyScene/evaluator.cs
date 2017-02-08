@@ -30,9 +30,9 @@ public class Evaluator : IPhenomeEvaluator<IBlackBox> {
 
 	public IEnumerator Evaluate(IBlackBox box)
 	{
+		Debug.Log ("Evaluator evaluating");
 		if (optimizer != null)
 		{
-			optimizer.TrialDuration = optimizer.TrialDuration * 2;
 			optimizer.Evaluate(box);
 			yield return new WaitForSeconds(optimizer.TrialDuration);
 			optimizer.StopEvaluation(box);

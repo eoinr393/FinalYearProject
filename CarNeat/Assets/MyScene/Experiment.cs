@@ -140,9 +140,7 @@ public class Experiment : INeatExperiment
 			genomeList = genomeFactory.CreateGenomeList(_populationSize, 0);
 
 		}
-
-
-
+			
 		return CreateEvolutionAlgorithm(genomeFactory, genomeList);
 	}
 
