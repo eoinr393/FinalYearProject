@@ -47,6 +47,7 @@
   <ItemGroup>
      <Compile Include="Assets\BallExperiment\BallController.cs" />
      <Compile Include="Assets\CarExperiment\CarController.cs" />
+     <Compile Include="Assets\CarExperiment\CreatureTest.cs" />
      <Compile Include="Assets\CarExperiment\SimpleEvaluator.cs" />
      <Compile Include="Assets\CarExperiment\SimpleExperiment.cs" />
      <Compile Include="Assets\SharpNEAT\Core\AuxFitnessInfo.cs" />

@@ -69,9 +69,9 @@ public class CarController : UnitController {
 
 			ISignalArray outputArr = box.OutputSignalArray;
 
-			var steerZ =Mathf.Clamp( (float)outputArr[0] * TurnSpeed, -5,5);
+			var steerZ =(float)outputArr[0] * TurnSpeed;
 			//var steerZ = (float)outputArr [1] * 2 * TurnSpeed ;
-
+			float torque = steerZ * 1000;
 			//print ("steerX" + steerX);
 			//print ("steerZ" + steerZ);
 
@@ -79,7 +79,15 @@ public class CarController : UnitController {
 			//this.GetComponent<HingeJoint>().connectedBody.transform.Rotate(new Vector3 (0, 0, steerZ) * Time.deltaTime);
 
 			//this.gameObject.transform.GetChild (1).Rotate (new Vector3 (0, 0, steerZ) * Time.deltaTime, Space.Self);
-			this.gameObject.transform.GetChild (1).gameObject.GetComponent<Rigidbody> ().AddForce (new Vector3 (0, 0, steerZ));
+			//this.gameObject.transform.GetChild (1).gameObject.GetComponent<Rigidbody> ().AddForce (new Vector3 (0, 0, steerZ));
+
+			foreach (Transform child in transform) {
+				if (child.tag == "Leg") {
+					print ("found Leg");
+					child.GetComponent<Rigidbody> ().AddTorque (0, torque, 0, ForceMode.Force);
+				}
+			}
+
         }
     }
 
@@ -113,6 +121,13 @@ public class CarController : UnitController {
         }*/
 		print ("Checking fitness..");
 		try{
+
+			float fit = maxDist/10;
+
+			if(fit < 1){
+				return 0;
+			}
+
 			return maxDist/ 10;
 		}
 		catch{

@@ -50,7 +50,7 @@ public class Optimizer : MonoBehaviour {
 
         print(champFileSavePath);
 
-		Unit.transform.GetChild (0).transform.position = new Vector3 (0, 0, 0);
+		//Unit.transform.GetChild (0).transform.position = new Vector3 (0, 0, 0);
 	}
 
     // Update is called once per frame
