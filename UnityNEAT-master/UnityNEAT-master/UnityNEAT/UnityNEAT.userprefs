@@ -10,7 +10,7 @@
       <File FileName="Assets\Resources\experiment.config.xml" Line="1" Column="1" />
       <File FileName="Assets\SharpNEAT\EvolutionAlgorithms\AbstractGenerationalAlgorithm.cs" Line="1" Column="1" />
       <File FileName="Assets\SharpNEAT\Utility.cs" Line="1" Column="1" />
-      <File FileName="Assets\CarExperiment\CreatureTest.cs" Line="22" Column="51" />
+      <File FileName="Assets\CarExperiment\CreatureTest.cs" Line="32" Column="40" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

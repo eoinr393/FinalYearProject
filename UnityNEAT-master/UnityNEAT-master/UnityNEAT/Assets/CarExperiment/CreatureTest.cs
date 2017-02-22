@@ -5,32 +5,42 @@ public class CreatureTest : MonoBehaviour {
 
 	public float torque = 10;
 	private float targetAngle;
+	public Vector3 Vec1;
+	private Quaternion moveQ;
+
+
 	// Use this for initialization
 	void Start () {
-		foreach (Transform child in transform) {
-			if (child.tag == "Body") {
-				targetAngle = 0;
-			}
-		}
 	}
 	
 	// Update is called once per frame
 	void FixedUpdate () {
 		float turn = Input.GetAxis ("Horizontal");
 
-		targetAngle += turn * Time.deltaTime * torque;
-		Quaternion targetRotation = Quaternion.AngleAxis( targetAngle, Vector3.up );
+		foreach(Transform child in transform) {
+		
+			if (child.tag == "Body") {
+				
+				ConfigurableJoint joint = child.GetComponent<ConfigurableJoint> ();
 
-		if(Input.GetKey(KeyCode.RightArrow)){
-			foreach(Transform child in transform) {
-				if (child.tag == "Body") {
-					print ("target angle = " + targetAngle);
-					child.GetComponent<ConfigurableJoint> ().targetRotation = targetRotation;
+				if(child.GetComponent<Rigidbody>().IsSleeping())
+					child.GetComponent<Rigidbody> ().WakeUp ();
+
+				if (Input.anyKey) {
+
+					float h = Input.GetAxis ("Horizontal");
+					float w = Input.GetAxis ("Vertical");
+
+					Vec1 [0] = Vec1 [0] + h;
+					Vec1 [2] = Vec1 [1] + w;
 				}
+
+				moveQ = Quaternion.Euler (Vec1);
+
+				joint.targetRotation = moveQ;
+
 			}
 		}
-
-
 		/*if (Input.GetKey (KeyCode.UpArrow)) {
 			//this.gameObject.transform.GetChild (1).gameObject.GetComponent<Rigidbody> ().AddTorque (transform.up * torque * turn);
 
@@ -84,4 +94,6 @@ public class CreatureTest : MonoBehaviour {
 		}*/
 	
 	}
+
 }
+
