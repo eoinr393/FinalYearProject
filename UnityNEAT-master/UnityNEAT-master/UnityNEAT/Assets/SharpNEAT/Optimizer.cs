@@ -10,8 +10,8 @@ using System.IO;
 
 public class Optimizer : MonoBehaviour {
 
-    const int NUM_INPUTS = 6;
-    const int NUM_OUTPUTS = 1;
+    const int NUM_INPUTS = 7;
+    const int NUM_OUTPUTS = 8;
 
     public int Trials;
     public float TrialDuration;

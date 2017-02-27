@@ -5,9 +5,12 @@ public class CreatureTest : MonoBehaviour {
 
 	public float torque = 10;
 	private float targetAngle;
-	public Vector3 Vec1;
-	private Quaternion moveQ;
 
+	public float frequency = 20f;
+	public float amplitude = 0.5f;
+	public float period = 10.0f;
+	public float angle = 5.0f;
+	float t;
 
 	// Use this for initialization
 	void Start () {
@@ -15,31 +18,27 @@ public class CreatureTest : MonoBehaviour {
 	
 	// Update is called once per frame
 	void FixedUpdate () {
-		float turn = Input.GetAxis ("Horizontal");
 
+		t = t + Time.deltaTime;
+		float phase = Mathf.Sin (t / period);
+
+
+		GameObject body = null;
 		foreach(Transform child in transform) {
-		
 			if (child.tag == "Body") {
-				
-				ConfigurableJoint joint = child.GetComponent<ConfigurableJoint> ();
-
-				if(child.GetComponent<Rigidbody>().IsSleeping())
-					child.GetComponent<Rigidbody> ().WakeUp ();
-
-				if (Input.anyKey) {
-
-					float h = Input.GetAxis ("Horizontal");
-					float w = Input.GetAxis ("Vertical");
-
-					Vec1 [0] = Vec1 [0] + h;
-					Vec1 [2] = Vec1 [1] + w;
-				}
-
-				moveQ = Quaternion.Euler (Vec1);
-
-				joint.targetRotation = moveQ;
-
+				Debug.Log ("Body Set");
+				body = child.gameObject;
 			}
+		}
+			
+		foreach(HingeJoint comp in body.GetComponents<HingeJoint>()){
+			Debug.Log ("Rotating Leg");
+			Rigidbody leg = comp.connectedBody;
+			float rotamt = angle * phase;
+			//leg.transform.localRotation = Quaternion.Euler((new Vector3 (0,0,rotamt)));
+			//comp.transform.Rotate((new Vector3 (0,0,rotamt)));
+			Debug.Log("rotmat :" + rotamt);
+			leg.AddTorque((new Vector3 (0,0,rotamt)));
 		}
 		/*if (Input.GetKey (KeyCode.UpArrow)) {
 			//this.gameObject.transform.GetChild (1).gameObject.GetComponent<Rigidbody> ().AddTorque (transform.up * torque * turn);

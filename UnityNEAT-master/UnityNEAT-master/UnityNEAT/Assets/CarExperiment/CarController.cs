@@ -4,51 +4,38 @@ using SharpNeat.Phenomes;
 
 public class CarController : UnitController {
 
-    public float Speed = 5f;
-    public float TurnSpeed = 180f;
-    public int Lap = 1;
-    public int CurrentPiece, LastPiece;
     bool IsRunning;
     public float SensorRange = 10;
-    int WallHits; 
 	private Vector3 initPos;
+	private Vector3 goToPos;
 	private float maxDist = 0;
     IBlackBox box;
+
+	public float period = 2.0f;
+	public float angle = 5.0f;
+	private float t;
+	private float limbCount = 0;
+
+	private GameObject body = null;
 
 	// Use this for initialization
 	void Start () {
 		initPos = this.gameObject.transform.GetChild(0).transform.position;
 		print ("Creature position = " + initPos);
+
+		goToPos = new Vector3 (transform.position.x + 100, transform.position.y, transform.position.z);
+
+		//set body
+		foreach (Transform child in transform) {
+			if (child.tag == "Body") {
+				body = child.gameObject;
+			}
+		}
 	}
 	
 	// Update is called once per frame
     void FixedUpdate()
     {
-        //grab the input axes
-        //var steer = Input.GetAxis("Horizontal");
-        //var gas = Input.GetAxis("Vertical");
-
-        ////if they're hittin' the gas...
-        //if (gas != 0)
-        //{
-        //    //take the throttle level (with keyboard, generally +1 if up, -1 if down)
-        //    //  and multiply by speed and the timestep to get the distance moved this frame
-        //    var moveDist = gas * speed * Time.deltaTime;
-
-        //    //now the turn amount, similar drill, just turnSpeed instead of speed
-        //    //   we multiply in gas as well, which properly reverses the steering when going 
-        //    //   backwards, and scales the turn amount with the speed
-        //    var turnAngle = steer * turnSpeed * Time.deltaTime * gas;
-
-        //    //now apply 'em, starting with the turn           
-        //    transform.Rotate(0, turnAngle, 0);
-
-        //    //and now move forward by moveVect
-        //    transform.Translate(Vector3.forward * moveDist);
-        //}
-
-        // Five sensors: Front, left front, left, right front, right
-
         if (IsRunning)
         {
 			//check distance
@@ -56,22 +43,54 @@ public class CarController : UnitController {
 			if(maxDist < curDist)
 					maxDist = curDist;
 
+			///////////////////////////
+			//set neural network inputs
+			///////////////////////////
 			ISignalArray inputArr = box.InputSignalArray;
 
-			inputArr[0] = this.gameObject.transform.GetChild (1).transform.eulerAngles.x;
-			inputArr[2] = this.gameObject.transform.GetChild (1).transform.eulerAngles.y;
-			inputArr[3] = this.gameObject.transform.GetChild (1).transform.eulerAngles.z;
-			inputArr[4] = this.gameObject.transform.GetChild (0).transform.eulerAngles.x;
-			inputArr[5] = this.gameObject.transform.GetChild (0).transform.eulerAngles.y;
-			inputArr[6] = this.gameObject.transform.GetChild (0).transform.eulerAngles.z;
+			int arrayInc = 0;
+			foreach (HingeJoint hinge in body.GetComponents<HingeJoint>()) {
+				inputArr [arrayInc] = hinge.connectedBody.transform.eulerAngles.z;
+				arrayInc++;
+			}
+
+			limbCount = arrayInc;
+
+			inputArr [arrayInc] = body.transform.eulerAngles.z;
+			inputArr [arrayInc + 1] = body.transform.eulerAngles.y;
+			inputArr [arrayInc + 2] = body.transform.eulerAngles.x;
 
 			box.Activate();
 
 			ISignalArray outputArr = box.OutputSignalArray;
 
-			var steerZ =(float)outputArr[0] * TurnSpeed;
-			//var steerZ = (float)outputArr [1] * 2 * TurnSpeed ;
-			float torque = steerZ * 1000;
+			/////////////////////
+			//do the leg rotating
+			/////////////////////
+			t = t + Time.deltaTime;
+
+			int compInc = 0;
+
+			foreach(HingeJoint comp in body.GetComponents<HingeJoint>()){
+				float hAngle = Mathf.Clamp((float)outputArr [compInc],-200.0f,200.0f) * 20;
+				float hPeriod = Mathf.Clamp((float)outputArr [compInc + 1], 0.0f, 10.0f) * 2;
+
+				hPeriod = (float)System.Math.Round (hPeriod, 3);
+				float phase = (float)Mathf.Sin(t / hPeriod);
+
+				float rotamt = hAngle * phase;
+
+				print ("Adding " + rotamt + " of Torque from angle=" + hAngle + " period=" + hPeriod + " t: " + t);
+				Rigidbody leg = comp.connectedBody;
+			
+				leg.AddTorque((new Vector3 (0,0,rotamt)));
+
+				compInc += 2;
+			}
+
+			//var steerZ =(float)outputArr[0] * TurnSpeed;
+
+			//float torque = steerZ * 1000;
 			//print ("steerX" + steerX);
 			//print ("steerZ" + steerZ);
 
@@ -81,12 +100,12 @@ public class CarController : UnitController {
 			//this.gameObject.transform.GetChild (1).Rotate (new Vector3 (0, 0, steerZ) * Time.deltaTime, Space.Self);
 			//this.gameObject.transform.GetChild (1).gameObject.GetComponent<Rigidbody> ().AddForce (new Vector3 (0, 0, steerZ));
 
-			foreach (Transform child in transform) {
+			/*foreach (Transform child in transform) {
 				if (child.tag == "Leg") {
 					print ("found Leg");
-					child.GetComponent<Rigidbody> ().AddTorque (0, torque, 0, ForceMode.Force);
+					//child.GetComponent<Rigidbody> ().AddTorque (0, torque, 0, ForceMode.Force);
 				}
-			}
+			}*/
 
         }
     }
@@ -122,13 +141,20 @@ public class CarController : UnitController {
 		print ("Checking fitness..");
 		try{
 
-			float fit = maxDist/10;
+			if(Vector3.Distance(goToPos, transform.position) > Vector3.Distance(initPos, goToPos))
+				return 0;
+
+
+			Vector3 targetVec = new Vector3(goToPos.x,0, goToPos.z) - new Vector3(initPos.x,0,initPos.z);
+			float fit = (float)Vector3.Distance(initPos, transform.position) - (float)(Vector3.Angle(targetVec, transform.right) * 0.1);
+
+			print("Fitness:: Distance: " + (float)Vector3.Distance(initPos, transform.position) + " || Angle Difference: " + (float)Vector3.Angle(targetVec, transform.right));
 
 			if(fit < 1){
 				return 0;
 			}
 
-			return maxDist/ 10;
+			return fit;
 		}
 		catch{
 			print ("failed to get distance");
