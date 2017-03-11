@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using SharpNeat.Phenomes;
+using System.Collections.Generic;
 
 public class CarController : UnitController {
 
@@ -14,95 +15,80 @@ public class CarController : UnitController {
     int WallHits; 
     IBlackBox box;
 
+	//scanning values
+	private int rayCount = 12;
+	public float sightLength = 100;
+	public float fov = 30;
+	private GameObject enemy;
+	float[] sensorVals;
+	Quaternion startingAngle = Quaternion.AngleAxis(-65, Vector3.up);
+	Quaternion raySpace;
+
+	//evals
+	private int predatorHit = 0;
+	private float startTime;
+	private float survivedTime;
+	private int foodEaten = 0;
+
 	// Use this for initialization
 	void Start () {
-	
+		raySpace = Quaternion.AngleAxis(fov, Vector3.up);
+		sensorVals = new float[rayCount * 2];
+		startTime = Time.time;
 	}
 	
 	// Update is called once per frame
     void FixedUpdate()
     {
-        //grab the input axes
-        //var steer = Input.GetAxis("Horizontal");
-        //var gas = Input.GetAxis("Vertical");
-
-        ////if they're hittin' the gas...
-        //if (gas != 0)
-        //{
-        //    //take the throttle level (with keyboard, generally +1 if up, -1 if down)
-        //    //  and multiply by speed and the timestep to get the distance moved this frame
-        //    var moveDist = gas * speed * Time.deltaTime;
-
-        //    //now the turn amount, similar drill, just turnSpeed instead of speed
-        //    //   we multiply in gas as well, which properly reverses the steering when going 
-        //    //   backwards, and scales the turn amount with the speed
-        //    var turnAngle = steer * turnSpeed * Time.deltaTime * gas;
-
-        //    //now apply 'em, starting with the turn           
-        //    transform.Rotate(0, turnAngle, 0);
-
-        //    //and now move forward by moveVect
-        //    transform.Translate(Vector3.forward * moveDist);
-        //}
-
-        // Five sensors: Front, left front, left, right front, right
+		
 
         if (IsRunning)
         {
-            float frontSensor = 0;
-            float leftFrontSensor = 0;
-            float leftSensor = 0;
-            float rightFrontSensor = 0;
-            float rightSensor = 0;
-            // Front sensor
+			int rayCounter = 0;
+            // check for predators
             RaycastHit hit;
-            if (Physics.Raycast(transform.position + transform.forward * 1.1f, transform.TransformDirection(new Vector3(0, 0, 1).normalized), out hit, SensorRange))
-            {
-                if (hit.collider.tag.Equals("Wall"))
-                {
-                    frontSensor = 1 - hit.distance / SensorRange;
-                }
-            }
+			Quaternion angle = transform.rotation * startingAngle;
+			Vector3 rayDir = angle * Vector3.forward;
+			for(int i = 0; i < rayCount; i++)
+			{
+				Debug.DrawRay (transform.position, rayDir * sightLength, Color.blue);
 
-            if (Physics.Raycast(transform.position + transform.forward * 1.1f, transform.TransformDirection(new Vector3(0.5f, 0, 1).normalized), out hit, SensorRange))
-            {
-                if (hit.collider.tag.Equals("Wall"))
-                {
-                    rightFrontSensor = 1 - hit.distance / SensorRange;
-                }
-            }
+				if(Physics.Raycast(transform.position, rayDir, out hit, sightLength))
+				{
+					GameObject collider = hit.collider.gameObject;
+					if(collider.name == "Predator")
+					{
+						Debug.Log ("Seen the Predator");
+						sensorVals [i] = 1 - hit.distance / sightLength;
+					}
+				}
+				rayDir = raySpace * rayDir;
+				rayCounter++;
+			}
 
-            if (Physics.Raycast(transform.position + transform.forward * 1.1f, transform.TransformDirection(new Vector3(1, 0, 0).normalized), out hit, SensorRange))
-            {
-                if (hit.collider.tag.Equals("Wall"))
-                {
-                    rightSensor = 1 - hit.distance / SensorRange;
-                }
-            }
+			//check for food
+			for(int i = rayCounter + 1; i < rayCount * 2; i++)
+			{
+				Debug.DrawRay (transform.position, rayDir * sightLength, Color.blue);
 
-            if (Physics.Raycast(transform.position + transform.forward * 1.1f, transform.TransformDirection(new Vector3(-0.5f, 0, 1).normalized), out hit, SensorRange))
-            {
-                if (hit.collider.tag.Equals("Wall"))
-                {
-                    leftFrontSensor = 1 - hit.distance / SensorRange;
-                }
-            }
+				if(Physics.Raycast(transform.position, rayDir, out hit, sightLength))
+				{
+					GameObject collider = hit.collider.gameObject;
+					if(collider.name == "Food")
+					{
+						Debug.Log ("Seen Food");
+						sensorVals [i] = 1 - hit.distance / sightLength;
+					}
+				}
+				rayDir = raySpace * rayDir;
+			}
 
-            if (Physics.Raycast(transform.position + transform.forward * 1.1f, transform.TransformDirection(new Vector3(-1, 0, 0).normalized), out hit, SensorRange))
-            {
-                if (hit.collider.tag.Equals("Wall"))
-                {
-                    leftSensor = 1 - hit.distance / SensorRange;
-                }
-            }
 
             ISignalArray inputArr = box.InputSignalArray;
-            inputArr[0] = frontSensor;
-            inputArr[1] = leftFrontSensor;
-            inputArr[2] = leftSensor;
-            inputArr[3] = rightFrontSensor;
-            inputArr[4] = rightSensor;
-
+			for(int i = 0; i < rayCount * 2; i++) {
+				inputArr [i] = sensorVals [i];
+			}
+        
             box.Activate();
 
             ISignalArray outputArr = box.OutputSignalArray;
@@ -139,7 +125,7 @@ public class CarController : UnitController {
 
     public override float GetFitness()
     {
-        if (Lap == 1 && CurrentPiece == 0)
+        /*if (Lap == 1 && CurrentPiece == 0)
         {
             return 0;
         }
@@ -154,12 +140,20 @@ public class CarController : UnitController {
         {
             return fit;
         }
-        return 0;
+        return 0;*/
+		float fit = foodEaten + (float)(survivedTime * 0.2) - (float)(WallHits * 0.2) - (predatorHit);
+
+		if (fit > 0) {
+			return fit;
+		}
+
+		return 0;
+
     }
 
     void OnCollisionEnter(Collision collision)
     {
-        if (collision.collider.tag.Equals("Road"))
+        /*if (collision.collider.tag.Equals("Road"))
         {
             RoadPiece rp = collision.collider.GetComponent<RoadPiece>();
           //  print(collision.collider.tag + " " + rp.PieceNumber);
@@ -182,7 +176,20 @@ public class CarController : UnitController {
         else if (collision.collider.tag.Equals("Wall"))
         {
             WallHits++;
-        }
+        }*/
+
+		if (collision.collider.tag == "Predator") {
+			predatorHit++;
+			survivedTime = Time.time - startTime;
+		}
+		if (collision.collider.tag == "Wall") {
+			WallHits++;
+		}
+		if (collision.collider.tag == "Food") {
+			foodEaten++;
+			Destroy(collision.collider.gameObject);
+		}
+			
     }
 
 

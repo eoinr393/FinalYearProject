@@ -10,7 +10,7 @@ using System.IO;
 
 public class Optimizer : MonoBehaviour {
 
-    const int NUM_INPUTS = 5;
+    const int NUM_INPUTS = 24;
     const int NUM_OUTPUTS = 2;
 
     public int Trials;
@@ -156,6 +156,8 @@ public class Optimizer : MonoBehaviour {
     {
         GameObject obj = Instantiate(Unit, Unit.transform.position, Unit.transform.rotation) as GameObject;
         UnitController controller = obj.GetComponent<UnitController>();
+
+
 
         ControllerMap.Add(box, controller);
 
