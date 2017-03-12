@@ -14,9 +14,10 @@ public class CarController : UnitController {
 
 	//scanning values
 	private int rayCount = 12;
-	public float sightLength = 100;
+	public float sightLength = 30;
 	public float fov = 30;
 	private GameObject enemy;
+	private int searchObjectCount = 2;//how many different things the creature is looking for
 	float[] sensorVals;
 	Quaternion startingAngle = Quaternion.AngleAxis(-65, Vector3.up);
 	Quaternion raySpace;
@@ -30,7 +31,7 @@ public class CarController : UnitController {
 	// Use this for initialization
 	void Start () {
 		raySpace = Quaternion.AngleAxis(fov, Vector3.up);
-		sensorVals = new float[rayCount * 2];
+		sensorVals = new float[rayCount * searchObjectCount];
 		startTime = Time.time;
 	}
 	
@@ -53,10 +54,11 @@ public class CarController : UnitController {
 				if(Physics.Raycast(transform.position, rayDir, out hit, sightLength))
 				{
 					GameObject collider = hit.collider.gameObject;
-					if(collider.gameObject.tag == "Predator")
-					{
+					if (collider.gameObject.tag == "Predator") {
 						Debug.Log ("Seen the Predator");
 						sensorVals [i] = 1 - hit.distance / sightLength;
+					} else {
+						sensorVals [i] = 0;
 					}
 				}
 				rayDir = raySpace * rayDir;
@@ -66,7 +68,7 @@ public class CarController : UnitController {
 			//check for food
 			for(int i = rayCounter + 1; i < rayCount * 2; i++)
 			{
-				Debug.DrawRay (transform.position, rayDir * sightLength, Color.blue);
+				//Debug.DrawRay (transform.position, rayDir * sightLength, Color.blue);
 
 				if(Physics.Raycast(transform.position, rayDir, out hit, sightLength))
 				{
@@ -76,13 +78,16 @@ public class CarController : UnitController {
 						Debug.Log ("Seen Food");
 						sensorVals [i] = 1 - hit.distance / sightLength;
 					}
+					else {
+						sensorVals [i] = 0;
+					}
 				}
 				rayDir = raySpace * rayDir;
 			}
 
 
             ISignalArray inputArr = box.InputSignalArray;
-			for(int i = 0; i < rayCount * 2; i++) {
+			for(int i = 0; i < rayCount * searchObjectCount; i++) {
 				inputArr [i] = sensorVals [i];
 			}
         
@@ -114,7 +119,6 @@ public class CarController : UnitController {
 
     public override float GetFitness()
     {
-        
 		//float fit = foodEaten + (float)(survivedTime * 0.2) - (float)(WallHits * 0.2) - (predatorHit);
 		print("Food Eaten = " + foodEaten + " || Predator hits = " + predatorHit);
 		float fit = foodEaten - (float)(WallHits * 0.2) - (predatorHit);
@@ -122,9 +126,7 @@ public class CarController : UnitController {
 		if (fit > 0) {
 			return fit;
 		}
-
 		return 0;
-
     }
 
     void OnCollisionEnter(Collision collision)
