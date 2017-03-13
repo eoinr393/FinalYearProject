@@ -13,11 +13,11 @@ public class CarController : UnitController {
     IBlackBox box;
 
 	//scanning values
-	private int rayCount = 12;
+	private int rayCount = 24;
 	public float sightLength = 30;
-	public float fov = 30;
+	public float fov = 15;
 	private GameObject enemy;
-	private int searchObjectCount = 2;//how many different things the creature is looking for
+	private int searchObjectCount = 3;//how many different things the creature is looking for
 	float[] sensorVals;
 	Quaternion startingAngle = Quaternion.AngleAxis(-65, Vector3.up);
 	Quaternion raySpace;
@@ -49,16 +49,14 @@ public class CarController : UnitController {
 			Vector3 rayDir = angle * Vector3.forward;
 			for(int i = 0; i < rayCount; i++)
 			{
-				Debug.DrawRay (transform.position, rayDir * sightLength, Color.blue);
-
 				if(Physics.Raycast(transform.position, rayDir, out hit, sightLength))
 				{
 					GameObject collider = hit.collider.gameObject;
 					if (collider.gameObject.tag == "Predator") {
-						Debug.Log ("Seen the Predator");
+						//Debug.Log ("Seen the Predator");
 						sensorVals [i] = 1 - hit.distance / sightLength;
 					} else {
-						sensorVals [i] = 0;
+						sensorVals [i] = -1;
 					}
 				}
 				rayDir = raySpace * rayDir;
@@ -68,25 +66,44 @@ public class CarController : UnitController {
 			//check for food
 			for(int i = rayCounter + 1; i < rayCount * 2; i++)
 			{
-				//Debug.DrawRay (transform.position, rayDir * sightLength, Color.blue);
-
 				if(Physics.Raycast(transform.position, rayDir, out hit, sightLength))
 				{
 					GameObject collider = hit.collider.gameObject;
-					if(collider.gameObject.tag == "Food")
+					if (collider.gameObject.tag == "Food") {
+						//Debug.Log ("Seen Food");
+						sensorVals [i] = 1 - hit.distance / sightLength;
+					} else {
+						sensorVals [i] = -1;
+					}
+				}
+				rayDir = raySpace * rayDir;
+				rayCounter++;
+			}
+
+			for(int i = rayCounter + 1; i < rayCount * 3; i++)
+			{
+				if(Physics.Raycast(transform.position, rayDir, out hit, sightLength))
+				{
+					GameObject collider = hit.collider.gameObject;
+					if(collider.gameObject.tag == "Wall")
 					{
-						Debug.Log ("Seen Food");
+						//Debug.Log ("Seen Wall");
 						sensorVals [i] = 1 - hit.distance / sightLength;
 					}
 					else {
-						sensorVals [i] = 0;
+						sensorVals [i] = -1;
 					}
 				}
 				rayDir = raySpace * rayDir;
 			}
 
+			///////////////////////////
+			//Input Array for Black Box
+			///////////////////////////
 
-            ISignalArray inputArr = box.InputSignalArray;
+			//create array
+			ISignalArray inputArr = box.InputSignalArray;
+
 			for(int i = 0; i < rayCount * searchObjectCount; i++) {
 				inputArr [i] = sensorVals [i];
 			}
@@ -106,6 +123,31 @@ public class CarController : UnitController {
         }
     }
 
+	private float AngleBetween(Vector3 vec1, Vector3 vec2){
+
+		float angle = Vector3.Angle(vec1,vec2);
+		Vector3 cross = Vector3.Cross (vec1, vec2);
+		return (cross.y < 0) ? -angle : angle;
+
+	}
+
+	private ISignalArray insertNeuronValues(ISignalArray inputArr, SortedList<float,float> list){
+		int inputCount = 0;
+
+		int tempInt = -999;
+		while (list.Count < 3) {
+			list.Add (-tempInt, -999);
+			tempInt++;
+		}
+			
+		for (int i = list.Count - 1; i > list.Count - 4; i--) {
+			inputArr [inputCount] = list.Keys [i];
+			inputArr [inputCount = + 1] = list.Values [i];
+			inputCount += 2;
+		}
+		return inputArr;
+	}
+
     public override void Stop()
     {
         this.IsRunning = false;
@@ -121,7 +163,7 @@ public class CarController : UnitController {
     {
 		//float fit = foodEaten + (float)(survivedTime * 0.2) - (float)(WallHits * 0.2) - (predatorHit);
 		print("Food Eaten = " + foodEaten + " || Predator hits = " + predatorHit);
-		float fit = foodEaten - (float)(WallHits * 0.2) - (predatorHit);
+		float fit = foodEaten - (float)(WallHits * 0.5) - (predatorHit);
 
 		if (fit > 0) {
 			return fit;
@@ -144,12 +186,5 @@ public class CarController : UnitController {
 		}
 			
     }
-
-
-
-    //void OnGUI()
-    //{
-    //    GUI.Button(new Rect(10, 200, 100, 100), "Forward: " + MovingForward + "\nPiece: " + CurrentPiece + "\nLast: " + LastPiece + "\nLap: " + Lap);
-    //}
     
 }

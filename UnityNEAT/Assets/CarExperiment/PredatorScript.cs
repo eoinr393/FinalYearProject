@@ -21,7 +21,7 @@ public class PredatorScript : MonoBehaviour {
 	private Vector3 desiredVelocity;
 	//scan
 	private float rayCount = 24;
-	public float sightLength = 50;
+	public float sightLength = 75;
 	private GameObject enemy;
 	private bool enemyFound = false;
 	public float avoidForce = 5.0f;
@@ -69,15 +69,18 @@ public class PredatorScript : MonoBehaviour {
 			if(Physics.Raycast(transform.position, rayDir, out hit, sightLength))
 			{
 				GameObject collider = hit.collider.gameObject;
-				if(collider.name == "prey")
+				if(collider.gameObject.tag == "Prey")
 				{
 					Debug.Log ("Found Prey");
 					enemyFound = true;
-					enemy = collider;
+					enemy = collider.gameObject;
 					return accForce;
 				}
 				//avoid obsticles
-				if (collider.tag == "Wall") {
+				if (collider.gameObject.tag == "Wall") {
+					accForce += hit.normal * (avoidForce / hit.distance);
+				}
+				if (collider.gameObject.tag == "Food") {
 					accForce += hit.normal * (avoidForce / hit.distance);
 				}
 			}
@@ -126,7 +129,7 @@ public class PredatorScript : MonoBehaviour {
 		force = Vector3.zero;
 		if (enemyFound) {
 			if (enemy != null) {
-				force += Pursuit (enemy);
+				force += Seek (enemy.transform.position);
 			} else
 				enemyFound = false;
 
