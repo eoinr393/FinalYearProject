@@ -8,25 +8,33 @@ public class CarController : UnitController {
     public float maxSpeed = 5f;
 	public float Speed = 5f;
     public float TurnSpeed = 180f;
+	public float stamina = 5.0f;
+	public float curstamina = 5.0f;
     bool IsRunning;
-    int WallHits; 
+     
     IBlackBox box;
 
 	//scanning values
-	private int rayCount = 24;
-	public float sightLength = 30;
-	public float fov = 15;
+	public int rayCount = 24;//number of rays
+	public float sightLength = 30;//length of ray
+	public float fov = 15;//degrees between each raycast
 	private GameObject enemy;
-	private int searchObjectCount = 3;//how many different things the creature is looking for
-	float[] sensorVals;
-	Quaternion startingAngle = Quaternion.AngleAxis(-65, Vector3.up);
-	Quaternion raySpace;
+	public int searchObjectCount = 3;//how many different things the creature is looking for
+	float[] sensorVals;//values of all the raycasts
+	Quaternion startingAngle = Quaternion.AngleAxis(-65, Vector3.up);//angle to start the raycasts from
+	Quaternion raySpace;//spaces between the raycasts
 
 	//evals
-	private int predatorHit = 0;
+	public int predatorHit = 0;
 	private float startTime;
 	private float survivedTime;
-	private int foodEaten = 0;
+	public int foodEaten = 0;
+	public int WallHits;
+
+	//checking tags
+	public string predstr = "Predator";
+	public string foodstr = "Food";
+	public string wallstr = "Wall";
 
 	// Use this for initialization
 	void Start () {
@@ -38,12 +46,10 @@ public class CarController : UnitController {
 	// Update is called once per frame
     void FixedUpdate()
     {
-		
-
         if (IsRunning)
         {
 			int rayCounter = 0;
-            // check for predators
+            // check for Predators
             RaycastHit hit;
 			Quaternion angle = transform.rotation * startingAngle;
 			Vector3 rayDir = angle * Vector3.forward;
@@ -52,7 +58,7 @@ public class CarController : UnitController {
 				if(Physics.Raycast(transform.position, rayDir, out hit, sightLength))
 				{
 					GameObject collider = hit.collider.gameObject;
-					if (collider.gameObject.tag == "Predator") {
+					if (collider.gameObject.tag == predstr) {
 						//Debug.Log ("Seen the Predator");
 						sensorVals [i] = 1 - hit.distance / sightLength;
 					} else {
@@ -63,13 +69,13 @@ public class CarController : UnitController {
 				rayCounter++;
 			}
 
-			//check for food
+			//check for Food
 			for(int i = rayCounter + 1; i < rayCount * 2; i++)
 			{
 				if(Physics.Raycast(transform.position, rayDir, out hit, sightLength))
 				{
 					GameObject collider = hit.collider.gameObject;
-					if (collider.gameObject.tag == "Food") {
+					if (collider.gameObject.tag == foodstr) {
 						//Debug.Log ("Seen Food");
 						sensorVals [i] = 1 - hit.distance / sightLength;
 					} else {
@@ -79,13 +85,13 @@ public class CarController : UnitController {
 				rayDir = raySpace * rayDir;
 				rayCounter++;
 			}
-
+			//check for Walls
 			for(int i = rayCounter + 1; i < rayCount * 3; i++)
 			{
 				if(Physics.Raycast(transform.position, rayDir, out hit, sightLength))
 				{
 					GameObject collider = hit.collider.gameObject;
-					if(collider.gameObject.tag == "Wall")
+					if(collider.gameObject.tag == wallstr)
 					{
 						//Debug.Log ("Seen Wall");
 						sensorVals [i] = 1 - hit.distance / sightLength;
@@ -112,14 +118,25 @@ public class CarController : UnitController {
 
             ISignalArray outputArr = box.OutputSignalArray;
 
-            var steer = (float)outputArr[0] * 2 - 1;
-            var gas = (float)outputArr[1] * 2 - 1;
+            float steer = (float)outputArr[0] * 2 - 1;
+            float gas = (float)outputArr[1] * 2 - 1;
 
-            var moveDist = gas * Speed * Time.deltaTime;
-            var turnAngle = steer * TurnSpeed * Time.deltaTime * gas;
+            float moveDist = gas * Speed * Time.deltaTime;
+            float turnAngle = steer * TurnSpeed * Time.deltaTime * gas;
+
+			float possibleMax = maxSpeed * ((int)curstamina / stamina);//limit max speed based on stamina
+
+			//increase stamia
+			if (curstamina < stamina - curstamina / 10) {
+				curstamina += curstamina / 10;
+			}
 
             transform.Rotate(new Vector3(0, turnAngle, 0));
-			transform.Translate(Vector3.forward * Mathf.Clamp(moveDist,0,maxSpeed));
+			transform.Translate(Vector3.forward * Mathf.Clamp(moveDist,0,possibleMax));
+
+			//decrease by amount moved
+
+			curstamina -= Mathf.Clamp (moveDist, 0, possibleMax) / 5;
         }
     }
 
@@ -173,16 +190,19 @@ public class CarController : UnitController {
 
     void OnCollisionEnter(Collision collision)
     {
-		if (collision.collider.tag == "Predator") {
+		if (collision.collider.tag == predstr) {
 			predatorHit++;
 			survivedTime = Time.time - startTime;
 		}
-		if (collision.collider.tag == "Wall") {
+		if (collision.collider.tag == wallstr) {
 			WallHits++;
 		}
-		if (collision.collider.tag == "Food") {
+		if (collision.collider.tag == foodstr) {
 			foodEaten++;
 			Destroy(collision.collider.gameObject);
+
+			if (curstamina < stamina - 1)
+				curstamina++;
 		}
 			
     }

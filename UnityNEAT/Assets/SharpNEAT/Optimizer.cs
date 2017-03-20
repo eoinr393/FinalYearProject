@@ -10,8 +10,8 @@ using System.IO;
 
 public class Optimizer : MonoBehaviour {
 
-    const int NUM_INPUTS = 72;
-    const int NUM_OUTPUTS = 2;
+    private int NUM_INPUTS = 72;
+    private int NUM_OUTPUTS = 2;
 
     public int Trials;
     public float TrialDuration;
@@ -34,6 +34,15 @@ public class Optimizer : MonoBehaviour {
     private uint Generation;
     private double Fitness;
 
+	public Optimizer(){
+	}
+
+	public Optimizer(int inputs, int outputs, GameObject unit){
+		this.NUM_INPUTS = inputs;
+		this.NUM_OUTPUTS = outputs;
+		this.Unit = unit;
+	}
+
 	// Use this for initialization
 	void Start () {
         Utility.DebugLog = true;
@@ -43,7 +52,7 @@ public class Optimizer : MonoBehaviour {
         xmlConfig.LoadXml(textAsset.text);
         experiment.SetOptimizer(this);
 
-        experiment.Initialize("Car Experiment", xmlConfig.DocumentElement, NUM_INPUTS, NUM_OUTPUTS);
+        experiment.Initialize("Creature Experiment", xmlConfig.DocumentElement, NUM_INPUTS, NUM_OUTPUTS);
 
         champFileSavePath = Application.persistentDataPath + string.Format("/{0}.champ.xml", "car");
         popFileSavePath = Application.persistentDataPath + string.Format("/{0}.pop.xml", "car");       

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PredatorScript : MonoBehaviour {
+public class PreyScript : MonoBehaviour {
 
 	public float maxSpeed = 5.0f;
 	public GameObject manualTarget;
@@ -21,11 +21,11 @@ public class PredatorScript : MonoBehaviour {
 	private Vector3 desiredVelocity;
 	//scan
 	private float rayCount = 24;
-	public float sightLength = 75;
+	public float sightLength = 30;
 	private GameObject enemy;
 	private bool enemyFound = false;
 	public float avoidForce = 5.0f;
-	public float fov = 5;
+	public float fov = 15;
 	Quaternion startingAngle = Quaternion.AngleAxis(-65, Vector3.up);
 	Quaternion raySpace;
 
@@ -37,7 +37,7 @@ public class PredatorScript : MonoBehaviour {
 		}
 		raySpace = Quaternion.AngleAxis(fov, Vector3.up);
 	}
-	
+
 	// Update is called once per frame
 	void FixedUpdate () {
 
@@ -69,7 +69,7 @@ public class PredatorScript : MonoBehaviour {
 			if(Physics.Raycast(transform.position, rayDir, out hit, sightLength))
 			{
 				GameObject collider = hit.collider.gameObject;
-				if(collider.gameObject.tag == "Prey")
+				if(collider.gameObject.tag == "Food")
 				{
 					Debug.Log ("Found Prey");
 					enemyFound = true;
@@ -80,7 +80,7 @@ public class PredatorScript : MonoBehaviour {
 				if (collider.gameObject.tag == "Wall") {
 					accForce += hit.normal * (avoidForce / hit.distance);
 				}
-				if (collider.gameObject.tag == "Food") {
+				if (collider.gameObject.tag == "Predator") {
 					accForce += hit.normal * (avoidForce / hit.distance);
 				}
 			}
@@ -97,7 +97,7 @@ public class PredatorScript : MonoBehaviour {
 		desired.Normalize ();
 		desired *= maxSpeed;
 		return desired - velocity;
-		 
+
 	}
 
 	//pursue prey
@@ -141,6 +141,4 @@ public class PredatorScript : MonoBehaviour {
 
 		return force;
 	}
-
-
 }

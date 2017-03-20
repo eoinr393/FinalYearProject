@@ -12,7 +12,7 @@ public class FoodSpawner : MonoBehaviour {
 	}
 
 	// Update is called once per frame
-	void Update () {
+	void FixedUpdate () {
 		int foodCount = GameObject.FindGameObjectsWithTag ("Food").Length;
 
 		if (foodCount < minFoodAmount) {

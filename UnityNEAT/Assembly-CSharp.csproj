@@ -47,13 +47,24 @@
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\BallExperiment\BallController.cs" />
-     <Compile Include="Assets\CarExperiment\CarController.cs" />
-     <Compile Include="Assets\CarExperiment\FoodSpawner.cs" />
-     <Compile Include="Assets\CarExperiment\GoalPiece.cs" />
-     <Compile Include="Assets\CarExperiment\PredatorScript.cs" />
-     <Compile Include="Assets\CarExperiment\RoadPiece.cs" />
-     <Compile Include="Assets\CarExperiment\SimpleEvaluator.cs" />
-     <Compile Include="Assets\CarExperiment\SimpleExperiment.cs" />
+     <Compile Include="Assets\CarExperiment\Scripts\CameraFollow.cs" />
+     <Compile Include="Assets\CarExperiment\Scripts\CarController.cs" />
+     <Compile Include="Assets\CarExperiment\Scripts\FoodSpawner.cs" />
+     <Compile Include="Assets\CarExperiment\Scripts\GoalPiece.cs" />
+     <Compile Include="Assets\CarExperiment\Scripts\PredatorScript.cs" />
+     <Compile Include="Assets\CarExperiment\Scripts\PreyScript.cs" />
+     <Compile Include="Assets\CarExperiment\Scripts\Pursue.cs" />
+     <Compile Include="Assets\CarExperiment\Scripts\RoadPiece.cs" />
+     <Compile Include="Assets\CarExperiment\Scripts\Scan.cs" />
+     <Compile Include="Assets\CarExperiment\Scripts\SelectionGUI.cs" />
+     <Compile Include="Assets\CarExperiment\Scripts\SelectionMenu.cs" />
+     <Compile Include="Assets\CarExperiment\Scripts\SimpleEvaluator.cs" />
+     <Compile Include="Assets\CarExperiment\Scripts\SimpleExperiment.cs" />
+     <Compile Include="Assets\CarExperiment\Scripts\SpawnEnemies.cs" />
+     <Compile Include="Assets\CarExperiment\Scripts\StartupScript.cs" />
+     <Compile Include="Assets\CarExperiment\Scripts\Steering.cs" />
+     <Compile Include="Assets\CarExperiment\Scripts\TempCreature.cs" />
+     <Compile Include="Assets\CarExperiment\Scripts\Wander.cs" />
      <Compile Include="Assets\SharpNEAT\Core\AuxFitnessInfo.cs" />
      <Compile Include="Assets\SharpNEAT\Core\CoordinateVector.cs" />
      <Compile Include="Assets\SharpNEAT\Core\EvaluationInfo.cs" />
