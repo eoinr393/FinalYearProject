@@ -1,4 +1,4 @@
 sceneSetups:
-- path: Assets/CarExperiment/Selection scene.unity
+- path: Assets/CarExperiment/MainMenu.unity
   isLoaded: 1
   isActive: 1

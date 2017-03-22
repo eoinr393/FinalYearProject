@@ -7,6 +7,11 @@ public class StartupScript : MonoBehaviour {
 	public GameObject preypref;
 	public GameObject predpref;
 
+	public static float preyFov = 15;
+	public static float predFov = 5;
+	public static float preySight = 40;
+	public static float predSight = 75;
+
 	GameObject creature;
 	SelectionMenu selMen;
 
@@ -51,12 +56,14 @@ public class StartupScript : MonoBehaviour {
 			creature.GetComponent<PreyScript> ().enabled = false;
 			creature.GetComponent<CarController> ().predstr = "Prey";
 			creature.GetComponent<CarController> ().foodstr = "Food";
+			creature.GetComponent<CarController> ().setRays (preySight, preyFov);
 
 		} else {
 			creature = predpref;
 			creature.GetComponent<PredatorScript> ().enabled = false;
 			creature.GetComponent<CarController> ().predstr = "Food";
 			creature.GetComponent<CarController> ().foodstr = "Prey";
+			creature.GetComponent<CarController> ().setRays (predSight, predFov);
 		}
 
 		//layer
@@ -64,10 +71,8 @@ public class StartupScript : MonoBehaviour {
 
 		//change the attributes of the creature
 		creature.GetComponent<CarController> ().enabled = true;
-		creature.GetComponent<CarController> ().TurnSpeed = SelectionMenu.turnSpeed * 36;
-		creature.GetComponent<CarController> ().Speed = SelectionMenu.speed;
-		creature.GetComponent<CarController> ().maxSpeed = SelectionMenu.speed * 1.5f;
-		creature.GetComponent<CarController> ().stamina = SelectionMenu.stamina;
+
+		creature.GetComponent<CarController> ().setTraits (SelectionMenu.speed * 1.5f, SelectionMenu.speed, SelectionMenu.turnSpeed * 36, SelectionMenu.stamina);
 
 		creature.transform.localScale = new Vector3 (SelectionMenu.size, SelectionMenu.size, SelectionMenu.size);
 		creature.GetComponent<Rigidbody> ().mass = SelectionMenu.size;

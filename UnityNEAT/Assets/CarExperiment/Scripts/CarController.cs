@@ -42,6 +42,22 @@ public class CarController : UnitController {
 		sensorVals = new float[rayCount * searchObjectCount];
 		startTime = Time.time;
 	}
+
+	//Setters
+	public void setTraits(float maxSpeed, float Speed, float TurnSpeed, float stamina){
+		this.maxSpeed = maxSpeed;
+		this.Speed = Speed;
+		this.TurnSpeed = TurnSpeed;
+		this.stamina = stamina;
+		this.curstamina = stamina;
+	}
+
+	public void setRays(float sightLength,  float fov){
+		this.sightLength = sightLength;
+		this.fov = fov;
+	}
+
+
 	
 	// Update is called once per frame
     void FixedUpdate()
@@ -141,14 +157,6 @@ public class CarController : UnitController {
 			curstamina -= Mathf.Clamp (moveDist, 0, possibleMax) / 3;
         }
     }
-
-	private float AngleBetween(Vector3 vec1, Vector3 vec2){
-
-		float angle = Vector3.Angle(vec1,vec2);
-		Vector3 cross = Vector3.Cross (vec1, vec2);
-		return (cross.y < 0) ? -angle : angle;
-
-	}
 
 	private ISignalArray insertNeuronValues(ISignalArray inputArr, SortedList<float,float> list){
 		int inputCount = 0;

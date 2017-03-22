@@ -46,7 +46,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\BallExperiment\BallController.cs" />
+     <Compile Include="Assets\CarExperiment\CreatureData.cs" />
+     <Compile Include="Assets\CarExperiment\MainScreen.cs" />
      <Compile Include="Assets\CarExperiment\Scripts\CameraFollow.cs" />
      <Compile Include="Assets\CarExperiment\Scripts\CarController.cs" />
      <Compile Include="Assets\CarExperiment\Scripts\FoodSpawner.cs" />

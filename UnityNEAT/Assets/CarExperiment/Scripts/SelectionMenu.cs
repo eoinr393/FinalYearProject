@@ -92,12 +92,10 @@ public class SelectionMenu : MonoBehaviour {
 			if (GUI.Button (new Rect (100, 50, 30, 30), "Go!")) {
 				if(Regex.IsMatch(creatureName, @"^[a-zA-Z]+$")){
 					Time.timeScale = 1;
-					SceneManager.LoadScene ("Car scene");
+					SceneManager.LoadScene ("CreatureScene");
 				}
 			}
-
 			GUI.EndGroup ();
-
 		}
 	}
 

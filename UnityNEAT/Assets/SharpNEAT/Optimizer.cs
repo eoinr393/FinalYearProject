@@ -7,6 +7,7 @@ using SharpNeat.Genomes.Neat;
 using System;
 using System.Xml;
 using System.IO;
+using System.Runtime.Serialization.Formatters.Binary;
 
 public class Optimizer : MonoBehaviour {
 
@@ -18,7 +19,7 @@ public class Optimizer : MonoBehaviour {
     public float StoppingFitness;
 	public string creatureName = "temp";
     bool EARunning;
-    string popFileSavePath, champFileSavePath;
+    string popFileSavePath, champFileSavePath, traitsFileSavePath;
 
     SimpleExperiment experiment;
     static NeatEvolutionAlgorithm<NeatGenome> _ea;
@@ -56,7 +57,8 @@ public class Optimizer : MonoBehaviour {
         experiment.Initialize("Creature Experiment", xmlConfig.DocumentElement, NUM_INPUTS, NUM_OUTPUTS);
 
 		champFileSavePath = Application.persistentDataPath + string.Format("/{0}.champ.xml", creatureName);
-		popFileSavePath = Application.persistentDataPath + string.Format("/{0}.pop.xml", creatureName);       
+		popFileSavePath = Application.persistentDataPath + string.Format("/{0}.pop.xml", creatureName);   
+		traitsFileSavePath = Application.persistentDataPath + string.Format("/{0}.traits.dat", creatureName);
 
         print(champFileSavePath);
 	}
@@ -117,6 +119,9 @@ public class Optimizer : MonoBehaviour {
     {
         Time.timeScale = 1;
         Utility.Log("Done ea'ing (and neat'ing)");
+
+		//Save the traits
+		SaveTraits ();
 
         XmlWriterSettings _xwSettings = new XmlWriterSettings();
         _xwSettings.Indent = true;
@@ -220,6 +225,31 @@ public class Optimizer : MonoBehaviour {
         }
         return 0;
     }
+
+	void SaveTraits(){
+		File.Create (traitsFileSavePath);
+		BinaryFormatter bf = new BinaryFormatter ();
+		FileStream fs = File.Open (traitsFileSavePath, FileMode.Open);
+
+		CreatureData cd = new CreatureData ();
+		CarController cc = Unit.GetComponent<CarController> ();
+
+		cd.maxSpeed = SelectionMenu.speed * 1.5f;
+		cd.Speed = SelectionMenu.speed;
+		cd.TurnSpeed = SelectionMenu.turnSpeed;
+		cd.stamina = SelectionMenu.stamina;
+		cd.curstamina = SelectionMenu.stamina;
+		cd.sightLength = cc.sightLength;
+		cd.fov = cc.fov;
+		cd.predstr = cc.predstr;
+		cd.foodstr = cc.foodstr;
+		cd.wallstr = cc.wallstr;
+		cd.mass = Unit.GetComponent<Rigidbody> ().mass;
+
+		bf.Serialize (fs, cd);
+		fs.Close ();
+
+	}
 
     void OnGUI()
     {
