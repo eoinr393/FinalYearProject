@@ -113,6 +113,8 @@ public class CarController : UnitController {
 			for(int i = 0; i < rayCount * searchObjectCount; i++) {
 				inputArr [i] = sensorVals [i];
 			}
+
+			print("Sensor vals = " + sensorVals.Length);
         
             box.Activate();
 
@@ -136,7 +138,7 @@ public class CarController : UnitController {
 
 			//decrease by amount moved
 
-			curstamina -= Mathf.Clamp (moveDist, 0, possibleMax) / 5;
+			curstamina -= Mathf.Clamp (moveDist, 0, possibleMax) / 3;
         }
     }
 
@@ -192,7 +194,7 @@ public class CarController : UnitController {
     {
 		if (collision.collider.tag == predstr) {
 			predatorHit++;
-			survivedTime = Time.time - startTime;
+			//survivedTime = Time.time - startTime;
 		}
 		if (collision.collider.tag == wallstr) {
 			WallHits++;

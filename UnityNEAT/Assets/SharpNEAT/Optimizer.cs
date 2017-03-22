@@ -16,6 +16,7 @@ public class Optimizer : MonoBehaviour {
     public int Trials;
     public float TrialDuration;
     public float StoppingFitness;
+	public string creatureName = "temp";
     bool EARunning;
     string popFileSavePath, champFileSavePath;
 
@@ -54,8 +55,8 @@ public class Optimizer : MonoBehaviour {
 
         experiment.Initialize("Creature Experiment", xmlConfig.DocumentElement, NUM_INPUTS, NUM_OUTPUTS);
 
-        champFileSavePath = Application.persistentDataPath + string.Format("/{0}.champ.xml", "car");
-        popFileSavePath = Application.persistentDataPath + string.Format("/{0}.pop.xml", "car");       
+		champFileSavePath = Application.persistentDataPath + string.Format("/{0}.champ.xml", creatureName);
+		popFileSavePath = Application.persistentDataPath + string.Format("/{0}.pop.xml", creatureName);       
 
         print(champFileSavePath);
 	}
@@ -87,7 +88,7 @@ public class Optimizer : MonoBehaviour {
     public void StartEA()
     {        
         Utility.DebugLog = true;
-        Utility.Log("Starting PhotoTaxis experiment");
+        Utility.Log("Starting Creature experiment");
         // print("Loading: " + popFileLoadPath);
         _ea = experiment.CreateEvolutionAlgorithm(popFileSavePath);
         startTime = DateTime.Now;
@@ -95,7 +96,7 @@ public class Optimizer : MonoBehaviour {
         _ea.UpdateEvent += new EventHandler(ea_UpdateEvent);
         _ea.PausedEvent += new EventHandler(ea_PauseEvent);
 
-        var evoSpeed = 25;
+        var evoSpeed = 2;
 
      //   Time.fixedDeltaTime = 0.045f;
         Time.timeScale = evoSpeed;       
@@ -110,11 +111,6 @@ public class Optimizer : MonoBehaviour {
 
         Fitness = _ea.Statistics._maxFitness;
         Generation = _ea.CurrentGeneration;
-      
-
-    //    Utility.Log(string.Format("Moving average: {0}, N: {1}", _ea.Statistics._bestFitnessMA.Mean, _ea.Statistics._bestFitnessMA.Length));
-
-    
     }
 
     void ea_PauseEvent(object sender, EventArgs e)

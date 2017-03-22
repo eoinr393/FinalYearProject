@@ -15,8 +15,10 @@ public class SpawnEnemies : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		int enemyCount = GameObject.FindGameObjectsWithTag ("Predator").Length;
+		int enemyCount = GameObject.FindGameObjectsWithTag (creatureTag).Length;
 
+
+		enemyPrefab.layer = LayerMask.NameToLayer ("Default");
 		if (enemyCount < minEnemyAmount) {
 
 			float randX = Random.Range (-40, 40);

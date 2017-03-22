@@ -7,6 +7,9 @@ public class SelectionGUI : MonoBehaviour {
 	public float groupWidth = 150;
 	public float groupHeight = 200;
 
+	private float gWidth = 150;
+	private float gHeight = 200;
+
 	bool selected = false;
 	GameObject creature;
 
@@ -30,16 +33,19 @@ public class SelectionGUI : MonoBehaviour {
 				if (hit.transform.gameObject.tag == Eval.tag) {
 
 					creature = hit.transform.gameObject;
+
+					gWidth = groupWidth;
+					gHeight = groupHeight;
 				}
 				//else do deselect
+			} else {
+				gWidth = 0;
+				gHeight = 0;
 			}
 
 			if (creature == null)
 				selected = false;
 		}
-
-
-		
 	}
 
 	void OnGUI(){
@@ -47,18 +53,18 @@ public class SelectionGUI : MonoBehaviour {
 		var groupX = Screen.width - groupWidth - 10;
 		var groupY = 20;
 
-		if (selected) {
-			
+		if (selected){
 			GUI.BeginGroup (new Rect (groupX, groupY, groupWidth, groupHeight));
-			GUI.Box (new Rect (0, 0, groupWidth, groupHeight), "Creature Stats");
+			GUI.Box (new Rect (0, 0, gWidth, gHeight), "Creature Stats");
 
-			GUI.Label (new Rect (10, 30, 100, 30), "Food Eaten: " + creature.GetComponent<CarController>().foodEaten);
-			GUI.Label (new Rect (10, 70, 100, 30), "Enemies Hit: " + creature.GetComponent<CarController>().predatorHit);
-			GUI.Label (new Rect (10, 110, 100, 30), "Walls Hit: " + creature.GetComponent<CarController>().WallHits);
-			GUI.Label (new Rect (10, 110, 100, 30), "Stamina: " + creature.GetComponent<CarController>().curstamina + "/" + creature.GetComponent<CarController>().stamina);
+			GUI.Label (new Rect (10, 30, 100, 30), "Food Eaten: " + creature.GetComponent<CarController> ().foodEaten);
+			GUI.Label (new Rect (10, 70, 100, 30), "Enemies Hit: " + creature.GetComponent<CarController> ().predatorHit);
+			GUI.Label (new Rect (10, 110, 100, 30), "Walls Hit: " + creature.GetComponent<CarController> ().WallHits);
+			GUI.Label (new Rect (10, 150, 100, 30), "Stamina: " + creature.GetComponent<CarController> ().curstamina + "/" + creature.GetComponent<CarController> ().stamina.ToString("0.0"));
 
 
 			GUI.EndGroup (); 
 		}
+
 	}
 }

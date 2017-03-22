@@ -71,7 +71,7 @@ public class PreyScript : MonoBehaviour {
 				GameObject collider = hit.collider.gameObject;
 				if(collider.gameObject.tag == "Food")
 				{
-					Debug.Log ("Found Prey");
+					//Debug.Log ("Found Prey");
 					enemyFound = true;
 					enemy = collider.gameObject;
 					return accForce;
@@ -80,9 +80,9 @@ public class PreyScript : MonoBehaviour {
 				if (collider.gameObject.tag == "Wall") {
 					accForce += hit.normal * (avoidForce / hit.distance);
 				}
-				if (collider.gameObject.tag == "Predator") {
+				/*if (collider.gameObject.tag == "Predator") {
 					accForce += hit.normal * (avoidForce / hit.distance);
-				}
+				}*/
 			}
 			rayDir = raySpace * rayDir;
 		}

@@ -23,16 +23,25 @@ public class StartupScript : MonoBehaviour {
 
 	void setSpawning(){
 		SpawnEnemies sp = GetComponent<SpawnEnemies> ();
+		FoodSpawner fs = GetComponent<FoodSpawner> ();
 
 		if (SelectionMenu.herb) {
 			sp.enemyPrefab = predpref;
 			sp.enemyPrefab.GetComponent<PredatorScript> ().enabled = true;
+			sp.creatureTag = "Predator";
+			sp.minEnemyAmount = 15;
+			fs.minFoodAmount = 20;
 
 		} else {
 			sp.enemyPrefab = preypref;
 			sp.enemyPrefab.GetComponent<PreyScript> ().enabled = true;
+			sp.creatureTag = "Prey";
+			sp.minEnemyAmount = 15;
+			fs.minFoodAmount = 10;
 		}
 		sp.enemyPrefab.GetComponent<CarController> ().enabled = false;
+
+		sp.enabled = true;
 	}
 
 	void setUpOptimizer(){
@@ -50,6 +59,10 @@ public class StartupScript : MonoBehaviour {
 			creature.GetComponent<CarController> ().foodstr = "Prey";
 		}
 
+		//layer
+		creature.layer = LayerMask.NameToLayer("Car");
+
+		//change the attributes of the creature
 		creature.GetComponent<CarController> ().enabled = true;
 		creature.GetComponent<CarController> ().TurnSpeed = SelectionMenu.turnSpeed * 36;
 		creature.GetComponent<CarController> ().Speed = SelectionMenu.speed;
@@ -66,6 +79,7 @@ public class StartupScript : MonoBehaviour {
 		GameObject eval = GameObject.Find ("Evaluator");
 		eval.SetActive (false);
 		eval.AddComponent(typeof(Optimizer));
+		eval.GetComponent<Optimizer> ().creatureName = SelectionMenu.creatureName;
 		eval.GetComponent<Optimizer> ().Unit = creature;
 		eval.GetComponent<Optimizer> ().Trials = 1;
 		eval.GetComponent<Optimizer> ().TrialDuration = 25;

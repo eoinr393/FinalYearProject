@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
 using UnityEngine.SceneManagement;
+using System.Text.RegularExpressions;
 
 
 public class SelectionMenu : MonoBehaviour {
@@ -15,6 +16,7 @@ public class SelectionMenu : MonoBehaviour {
 	public static float size = 1.0f;
 	public static float stamina = 5.0f;
 	public static float speed = 5.0f;
+	public static string creatureName = "";
 
 	public static bool herb = false;
 	public static bool pred = false;
@@ -24,6 +26,9 @@ public class SelectionMenu : MonoBehaviour {
 
 	private float screenWidth = Screen.width;
 	private float screenHeight = Screen.height;
+
+
+	private bool enterName = false;
 
 	// Use this for initialization
 	void Start () {
@@ -71,11 +76,31 @@ public class SelectionMenu : MonoBehaviour {
 
 		if (GUI.Button (new Rect (groupWidth / 2, 300, 150, 50), "Begin Evolution")) {
 			//go to next scene
-			SceneManager.LoadScene ("Car scene");
+			//SceneManager.LoadScene ("Car scene");
+			enterName = true;
+			Time.timeScale = 0;
 		}
 
 		GUI.EndGroup(); 
 
+		//CreatureName
+		if (enterName) {
+			GUI.BeginGroup (new Rect (Screen.width/2 -100, Screen.height/2, 200, 100));
 
+			creatureName = GUI.TextField (new Rect (10, 10, 200, 30), creatureName, 20);
+
+			if (GUI.Button (new Rect (100, 50, 30, 30), "Go!")) {
+				if(Regex.IsMatch(creatureName, @"^[a-zA-Z]+$")){
+					Time.timeScale = 1;
+					SceneManager.LoadScene ("Car scene");
+				}
+			}
+
+			GUI.EndGroup ();
+
+		}
 	}
+
+
+
 }
