@@ -11,6 +11,7 @@ using System.Runtime.Serialization.Formatters.Binary;
 
 public class Optimizer : MonoBehaviour {
 
+	//input/output nodes
     private int NUM_INPUTS = 72;
     private int NUM_OUTPUTS = 2;
 
@@ -24,7 +25,9 @@ public class Optimizer : MonoBehaviour {
     SimpleExperiment experiment;
     static NeatEvolutionAlgorithm<NeatGenome> _ea;
 
+	//creature
     public GameObject Unit;
+	private CreatureData cd = new CreatureData();
 
     Dictionary<IBlackBox, UnitController> ControllerMap = new Dictionary<IBlackBox, UnitController>();
     private DateTime startTime;
@@ -66,8 +69,6 @@ public class Optimizer : MonoBehaviour {
     // Update is called once per frame
     void Update()
     {
-      //  evaluationStartTime += Time.deltaTime;
-
         timeLeft -= Time.deltaTime;
         accum += Time.timeScale / Time.deltaTime;
         ++frames;
@@ -100,10 +101,13 @@ public class Optimizer : MonoBehaviour {
 
         var evoSpeed = 2;
 
-     //   Time.fixedDeltaTime = 0.045f;
         Time.timeScale = evoSpeed;       
         _ea.StartContinue();
         EARunning = true;
+
+		//save creature traits;
+		print("calling save traits");
+		SaveTraits();
     }
 
     void ea_UpdateEvent(object sender, EventArgs e)
@@ -120,11 +124,9 @@ public class Optimizer : MonoBehaviour {
         Time.timeScale = 1;
         Utility.Log("Done ea'ing (and neat'ing)");
 
-		//Save the traits
-		SaveTraits ();
-
         XmlWriterSettings _xwSettings = new XmlWriterSettings();
         _xwSettings.Indent = true;
+
         // Save genomes to xml file.        
         DirectoryInfo dirInf = new DirectoryInfo(Application.persistentDataPath);
         if (!dirInf.Exists)
@@ -136,8 +138,8 @@ public class Optimizer : MonoBehaviour {
         {
             experiment.SavePopulation(xw, _ea.GenomeList);
         }
-        // Also save the best genome
 
+        // Also save the best genome
         using (XmlWriter xw = XmlWriter.Create(champFileSavePath, _xwSettings))
         {
             experiment.SavePopulation(xw, new NeatGenome[] { _ea.CurrentChampGenome });
@@ -146,16 +148,12 @@ public class Optimizer : MonoBehaviour {
         Utility.Log("Total time elapsed: " + (endTime - startTime));
 
         System.IO.StreamReader stream = new System.IO.StreamReader(popFileSavePath);
-       
-
       
-        EARunning = false;        
-        
+        EARunning = false;           
     }
 
     public void StopEA()
     {
-
         if (_ea != null && _ea.RunState == SharpNeat.Core.RunState.Running)
         {
             _ea.Stop();
@@ -166,8 +164,6 @@ public class Optimizer : MonoBehaviour {
     {
         GameObject obj = Instantiate(Unit, Unit.transform.position, Unit.transform.rotation) as GameObject;
         UnitController controller = obj.GetComponent<UnitController>();
-
-
 
         ControllerMap.Add(box, controller);
 
@@ -187,19 +183,14 @@ public class Optimizer : MonoBehaviour {
 
         NeatGenome genome = null;
 
-
         // Try to load the genome from the XML document.
         try
         {
             using (XmlReader xr = XmlReader.Create(champFileSavePath))
                 genome = NeatGenomeXmlIO.ReadCompleteGenomeList(xr, false, (NeatGenomeFactory)experiment.CreateGenomeFactory())[0];
-
-
         }
         catch (Exception e1)
         {
-            // print(champFileLoadPath + " Error loading genome from file!\nLoading aborted.\n"
-            //						  + e1.Message + "\nJoe: " + champFileLoadPath);
             return;
         }
 
@@ -226,29 +217,35 @@ public class Optimizer : MonoBehaviour {
         return 0;
     }
 
-	void SaveTraits(){
-		File.Create (traitsFileSavePath);
-		BinaryFormatter bf = new BinaryFormatter ();
-		FileStream fs = File.Open (traitsFileSavePath, FileMode.Open);
+	private void SaveTraits(){
+		
+		using (FileStream fs = File.Open (traitsFileSavePath, FileMode.OpenOrCreate)) {
+			BinaryFormatter bf = new BinaryFormatter ();
+			print("Saving Traits of " + Unit.tag);
 
-		CreatureData cd = new CreatureData ();
-		CarController cc = Unit.GetComponent<CarController> ();
+			CreatureData cd = new CreatureData ();
+			CarController cc = Unit.GetComponent<CarController> ();
 
-		cd.maxSpeed = SelectionMenu.speed * 1.5f;
-		cd.Speed = SelectionMenu.speed;
-		cd.TurnSpeed = SelectionMenu.turnSpeed;
-		cd.stamina = SelectionMenu.stamina;
-		cd.curstamina = SelectionMenu.stamina;
-		cd.sightLength = cc.sightLength;
-		cd.fov = cc.fov;
-		cd.predstr = cc.predstr;
-		cd.foodstr = cc.foodstr;
-		cd.wallstr = cc.wallstr;
-		cd.mass = Unit.GetComponent<Rigidbody> ().mass;
+			cd.maxSpeed = SelectionMenu.speed * 1.5f;
+			cd.Speed = SelectionMenu.speed;
+			cd.TurnSpeed = SelectionMenu.turnSpeed;
+			cd.stamina = SelectionMenu.stamina;
+			cd.curstamina = SelectionMenu.stamina;
+			cd.sightLength = cc.sightLength;
+			cd.fov = cc.fov;
+			cd.predstr = cc.predstr;
+			cd.foodstr = cc.foodstr;
+			cd.wallstr = cc.wallstr;
+			cd.mass = Unit.GetComponent<Rigidbody> ().mass;
 
-		bf.Serialize (fs, cd);
-		fs.Close ();
+			if (SelectionMenu.herb)
+				cd.type = "Prey";
+			else
+				cd.type = "Predator";
 
+			bf.Serialize (fs, cd);
+			fs.Close ();
+		}
 	}
 
     void OnGUI()

@@ -17,4 +17,5 @@ class CreatureData{
 	public string foodstr = "Food";
 	public string wallstr = "Wall";
 	public float mass = 1.0f;
+	public string type = "Prey";
 }

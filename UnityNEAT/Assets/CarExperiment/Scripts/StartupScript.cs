@@ -54,7 +54,7 @@ public class StartupScript : MonoBehaviour {
 		if (SelectionMenu.herb) {
 			creature = preypref;
 			creature.GetComponent<PreyScript> ().enabled = false;
-			creature.GetComponent<CarController> ().predstr = "Prey";
+			creature.GetComponent<CarController> ().predstr = "Predator";
 			creature.GetComponent<CarController> ().foodstr = "Food";
 			creature.GetComponent<CarController> ().setRays (preySight, preyFov);
 

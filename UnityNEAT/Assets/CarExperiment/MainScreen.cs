@@ -22,7 +22,7 @@ public class MainScreen : MonoBehaviour {
 			SceneManager.LoadScene ("Selection scene");
 		}
 		if (GUI.Button (new Rect (buttonX, buttonY + 75, 200, 50), "Export a Behaviour")) {
-			SceneManager.LoadScene ("Selection scene");
+			SceneManager.LoadScene ("ExportBehaviours");
 		}
 
 	}

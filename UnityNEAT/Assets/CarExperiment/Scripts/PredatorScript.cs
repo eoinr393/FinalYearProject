@@ -71,7 +71,6 @@ public class PredatorScript : MonoBehaviour {
 				GameObject collider = hit.collider.gameObject;
 				if(collider.gameObject.tag == "Prey")
 				{
-					Debug.Log ("Found Prey");
 					enemyFound = true;
 					enemy = collider.gameObject;
 					return accForce;

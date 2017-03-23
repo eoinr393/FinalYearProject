@@ -23,7 +23,6 @@ public class SpawnEnemies : MonoBehaviour {
 
 			float randX = Random.Range (-40, 40);
 			float randZ = Random.Range (-40, 40);
-
 			Instantiate (enemyPrefab, new Vector3 (randX, 0.5f, randZ), Quaternion.identity);
 		}
 	}

@@ -129,8 +129,6 @@ public class CarController : UnitController {
 			for(int i = 0; i < rayCount * searchObjectCount; i++) {
 				inputArr [i] = sensorVals [i];
 			}
-
-			print("Sensor vals = " + sensorVals.Length);
         
             box.Activate();
 
@@ -209,7 +207,9 @@ public class CarController : UnitController {
 		}
 		if (collision.collider.tag == foodstr) {
 			foodEaten++;
-			Destroy(collision.collider.gameObject);
+			Debug.Log ("Destroyed object " + foodstr);
+
+			//Destroy(collision.collider.gameObject);
 
 			if (curstamina < stamina - 1)
 				curstamina++;
