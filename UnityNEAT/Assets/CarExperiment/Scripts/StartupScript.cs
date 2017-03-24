@@ -10,7 +10,7 @@ public class StartupScript : MonoBehaviour {
 	public static float preyFov = 15;
 	public static float predFov = 5;
 	public static float preySight = 40;
-	public static float predSight = 75;
+	public static float predSight = 45;
 
 	GameObject creature;
 	SelectionMenu selMen;

@@ -62,6 +62,7 @@ public class CarController : UnitController {
 	// Update is called once per frame
     void FixedUpdate()
     {
+		
         if (IsRunning)
         {
 			int rayCounter = 0;
@@ -134,8 +135,11 @@ public class CarController : UnitController {
 
             ISignalArray outputArr = box.OutputSignalArray;
 
-            float steer = (float)outputArr[0] * 2 - 1;
-            float gas = (float)outputArr[1] * 2 - 1;
+           // float steer = (float)outputArr[0] * 2 - 1;
+            //float gas = (float)outputArr[1] * 2 - 1;
+
+			float steer = (float)outputArr[0] * 2 - 1;
+			float gas = (float)outputArr [1] * 2 - 1;
 
             float moveDist = gas * Speed * Time.deltaTime;
             float turnAngle = steer * TurnSpeed * Time.deltaTime * gas;

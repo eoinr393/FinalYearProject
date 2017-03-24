@@ -1,20 +1,14 @@
 ﻿<Properties StartupItem="Assembly-CSharp.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\CarExperiment\ExportMain.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\CarExperiment\ExportCreature.cs">
     <Files>
-      <File FileName="Assets\CarExperiment\Scripts\PredatorScript.cs" Line="73" Column="6" />
-      <File FileName="Assets\CarExperiment\Scripts\PreyScript.cs" Line="74" Column="25" />
-      <File FileName="Assets\CarExperiment\Scripts\CarController.cs" Line="132" Column="9" />
-      <File FileName="Assets\CarExperiment\Scripts\SpawnEnemies.cs" Line="1" Column="1" />
-      <File FileName="Assets\CarExperiment\Scripts\FoodSpawner.cs" Line="1" Column="1" />
-      <File FileName="Assets\CarExperiment\Scripts\SelectionGUI.cs" Line="63" Column="180" />
-      <File FileName="Assets\CarExperiment\Scripts\StartupScript.cs" Line="1" Column="1" />
-      <File FileName="Assets\CarExperiment\Scripts\SelectionMenu.cs" Line="1" Column="1" />
-      <File FileName="Assets\CarExperiment\MainScreen.cs" Line="1" Column="1" />
-      <File FileName="Assets\CarExperiment\CreatureData.cs" Line="19" Column="19" />
-      <File FileName="Assets\SharpNEAT\UnitController.cs" Line="1" Column="1" />
-      <File FileName="Assets\SharpNEAT\Optimizer.cs" Line="224" Column="42" />
-      <File FileName="Assets\CarExperiment\ExportMain.cs" Line="41" Column="3" />
+      <File FileName="Assets\CarExperiment\Scripts\SelectionGUI.cs" Line="1" Column="1" />
+      <File FileName="Assets\CarExperiment\Scripts\SelectionMenu.cs" Line="95" Column="47" />
+      <File FileName="Assets\SharpNEAT\Optimizer.cs" Line="170" Column="66" />
+      <File FileName="Assets\CarExperiment\PreviewExport.cs" Line="27" Column="10" />
+      <File FileName="Assets\CarExperiment\ExportMain.cs" Line="92" Column="20" />
+      <File FileName="Assets\CarExperiment\ExportCreature.cs" Line="7" Column="2" />
+      <File FileName="Assets\SharpNEAT\Genomes\Neat\NeatGenome.cs" Line="44" Column="5" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

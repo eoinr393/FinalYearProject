@@ -162,7 +162,12 @@ public class Optimizer : MonoBehaviour {
 
     public void Evaluate(IBlackBox box)
     {
-        GameObject obj = Instantiate(Unit, Unit.transform.position, Unit.transform.rotation) as GameObject;
+		//random position inside the box
+		float x = UnityEngine.Random.Range(-40,40);
+		float z = UnityEngine.Random.Range (-40, 40);
+		Vector3 pos = new Vector3(x, 0, z);
+
+        GameObject obj = Instantiate(Unit, pos, Unit.transform.rotation) as GameObject;
         UnitController controller = obj.GetComponent<UnitController>();
 
         ControllerMap.Add(box, controller);

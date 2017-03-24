@@ -47,8 +47,11 @@
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\CarExperiment\CreatureData.cs" />
+     <Compile Include="Assets\CarExperiment\ExportCreature.cs" />
      <Compile Include="Assets\CarExperiment\ExportMain.cs" />
+     <Compile Include="Assets\CarExperiment\FoodBehviour.cs" />
      <Compile Include="Assets\CarExperiment\MainScreen.cs" />
+     <Compile Include="Assets\CarExperiment\PreviewExport.cs" />
      <Compile Include="Assets\CarExperiment\Scripts\CameraFollow.cs" />
      <Compile Include="Assets\CarExperiment\Scripts\CarController.cs" />
      <Compile Include="Assets\CarExperiment\Scripts\FoodSpawner.cs" />
