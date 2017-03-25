@@ -54,6 +54,7 @@
      <Compile Include="Assets\CarExperiment\PreviewExport.cs" />
      <Compile Include="Assets\CarExperiment\Scripts\CameraFollow.cs" />
      <Compile Include="Assets\CarExperiment\Scripts\CarController.cs" />
+     <Compile Include="Assets\CarExperiment\Scripts\ControllerSkeleton.cs" />
      <Compile Include="Assets\CarExperiment\Scripts\FoodSpawner.cs" />
      <Compile Include="Assets\CarExperiment\Scripts\PredatorScript.cs" />
      <Compile Include="Assets\CarExperiment\Scripts\PreyScript.cs" />
@@ -212,6 +213,7 @@
      <Compile Include="Assets\SharpNEAT\Utility\Utilities.cs" />
      <Compile Include="Assets\SharpNEAT\Utility\XmlIoUtils.cs" />
      <Compile Include="Assets\SharpNEAT\Utility\ZigguratGaussianSampler.cs" />
+     <None Include="Assets\CarExperiment\Bulbasaur.champ.xml" />
      <None Include="Assets\Resources\experiment.config.xml" />
  <Reference Include="UnityEngine.UI">
  <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
