@@ -8,6 +8,7 @@ using System;
 using System.Xml;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
+using UnityEngine.SceneManagement;
 
 public class Optimizer : MonoBehaviour {
 
@@ -165,7 +166,7 @@ public class Optimizer : MonoBehaviour {
 		//random position inside the box
 		float x = UnityEngine.Random.Range(-40,40);
 		float z = UnityEngine.Random.Range (-40, 40);
-		Vector3 pos = new Vector3(x, 0, z);
+		Vector3 pos = new Vector3(x, 5, z);
 
         GameObject obj = Instantiate(Unit, pos, Unit.transform.rotation) as GameObject;
         UnitController controller = obj.GetComponent<UnitController>();
@@ -229,7 +230,7 @@ public class Optimizer : MonoBehaviour {
 			print("Saving Traits of " + Unit.tag);
 
 			CreatureData cd = new CreatureData ();
-			CarController cc = Unit.GetComponent<CarController> ();
+			CreatureController cc = Unit.GetComponent<CreatureController> ();
 
 			cd.maxSpeed = SelectionMenu.speed * 1.5f;
 			cd.Speed = SelectionMenu.speed;
@@ -255,15 +256,18 @@ public class Optimizer : MonoBehaviour {
 
     void OnGUI()
     {
-        if (GUI.Button(new Rect(10, 10, 100, 40), "Start EA"))
+		if(GUI.Button (new Rect (10, 10, 75, 30), "Main Menu")){
+			SceneManager.LoadScene ("MainMenu");
+		}
+        if (GUI.Button(new Rect(10, 40, 100, 40), "Start EA"))
         {
             StartEA();
         }
-        if (GUI.Button(new Rect(10, 60, 100, 40), "Stop EA"))
+        if (GUI.Button(new Rect(10, 90, 100, 40), "Stop EA"))
         {
             StopEA();
         }
-        if (GUI.Button(new Rect(10, 110, 100, 40), "Run best"))
+        if (GUI.Button(new Rect(10, 140, 100, 40), "Run best"))
         {
             RunBest();
         }
