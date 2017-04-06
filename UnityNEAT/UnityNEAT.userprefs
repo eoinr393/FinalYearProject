@@ -1,6 +1,6 @@
 ﻿<Properties StartupItem="Assembly-CSharp.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Behaviours\ExportCreature.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Behaviours\Scripts\ExportCreature.cs">
     <Files>
       <File FileName="Assets\Behaviours\Scripts\CreatureController.cs" Line="1" Column="1" />
       <File FileName="Assets\Behaviours\Scripts\StartupScript.cs" Line="1" Column="1" />
@@ -19,12 +19,7 @@
       <File FileName="Assets\Behaviours\Scripts\SpawnEnemies.cs" Line="1" Column="1" />
       <File FileName="Assets\Behaviours\Scripts\TempCreature.cs" Line="1" Column="1" />
       <File FileName="Assets\Behaviours\Scripts\Wander.cs" Line="1" Column="1" />
-      <File FileName="Assets\Behaviours\CreatureData.cs" Line="1" Column="1" />
-      <File FileName="Assets\Behaviours\ExportCreature.cs" Line="4" Column="3" />
-      <File FileName="Assets\Behaviours\ExportMain.cs" Line="1" Column="1" />
-      <File FileName="Assets\Behaviours\FoodBehviour.cs" Line="1" Column="1" />
-      <File FileName="Assets\Behaviours\MainScreen.cs" Line="1" Column="1" />
-      <File FileName="Assets\Behaviours\PreviewExport.cs" Line="1" Column="1" />
+      <File FileName="Assets\Behaviours\Scripts\ExportCreature.cs" Line="61" Column="66" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

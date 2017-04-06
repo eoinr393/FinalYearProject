@@ -118,7 +118,10 @@ public class ExportCreature : MonoBehaviour {
 		foreach (FileInfo file in files)
 		{
 			string temppath = Path.Combine(dest, file.Name);
-			file.CopyTo(temppath, false);
+			Debug.Log ("file: " + file.Name);
+			//these files mess up the dependencies in exports
+			if(!file.Name.StartsWith("Optimizer") && !file.Name.StartsWith("UnityParallelListEvaluator"))
+				file.CopyTo(temppath, false);
 		}
 		//get directorys and copy directories
 		foreach (DirectoryInfo subs in dirs)

@@ -46,18 +46,18 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\Behaviours\CreatureData.cs" />
-     <Compile Include="Assets\Behaviours\ExportCreature.cs" />
-     <Compile Include="Assets\Behaviours\ExportMain.cs" />
-     <Compile Include="Assets\Behaviours\FoodBehviour.cs" />
-     <Compile Include="Assets\Behaviours\MainScreen.cs" />
-     <Compile Include="Assets\Behaviours\PreviewExport.cs" />
      <Compile Include="Assets\Behaviours\Scripts\CameraFollow.cs" />
      <Compile Include="Assets\Behaviours\Scripts\ControllerSkeleton.cs" />
      <Compile Include="Assets\Behaviours\Scripts\CreatureController.cs" />
+     <Compile Include="Assets\Behaviours\Scripts\CreatureData.cs" />
+     <Compile Include="Assets\Behaviours\Scripts\ExportCreature.cs" />
+     <Compile Include="Assets\Behaviours\Scripts\ExportMain.cs" />
+     <Compile Include="Assets\Behaviours\Scripts\FoodBehviour.cs" />
      <Compile Include="Assets\Behaviours\Scripts\FoodSpawner.cs" />
+     <Compile Include="Assets\Behaviours\Scripts\MainScreen.cs" />
      <Compile Include="Assets\Behaviours\Scripts\Predator.cs" />
      <Compile Include="Assets\Behaviours\Scripts\PredatorScript.cs" />
+     <Compile Include="Assets\Behaviours\Scripts\PreviewExport.cs" />
      <Compile Include="Assets\Behaviours\Scripts\Prey.cs" />
      <Compile Include="Assets\Behaviours\Scripts\PreyScript.cs" />
      <Compile Include="Assets\Behaviours\Scripts\Pursue.cs" />
