@@ -1,7 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+/// <summary>
+/// 
+/// Script to Spawn Food in an area
+/// 
+/// --Eoin Raeside 04/2017
+/// </summary>
 public class FoodSpawner : MonoBehaviour {
 
 	public int minFoodAmount = 15;

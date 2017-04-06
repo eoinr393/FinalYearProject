@@ -3,7 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Runtime.Serialization.Formatters.Binary;
 using System;
-
+/// <summary>
+/// 
+/// Serializable class for storing the attributes of a creature,
+/// 
+/// --Eoin Raeside 04/2017
+/// </summary>
 [Serializable]
 public class CreatureData{
 	public float maxSpeed = 5f;

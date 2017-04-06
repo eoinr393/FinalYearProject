@@ -1,7 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+/// <summary>
+/// 
+/// Script  for the wander behaviour based on the
+/// Steering behaviours described by Craig Reynolds
+/// 
+/// --Eoin Raeside 04/2017
+/// </summary>
 public class Wander : MonoBehaviour {
 
 	public float slowingRad = 10.0f;

@@ -2,18 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-
+/// <summary>
+/// 
+/// Script to control gui for Main Screen
+/// 
+/// --Eoin Raeside 04/2017
+/// </summary>
 public class MainScreen : MonoBehaviour {
-
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
 
 	void OnGUI(){
 		float buttonX = Screen.width/2 - 100;

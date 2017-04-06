@@ -14,7 +14,14 @@ using SharpNeat.SpeciationStrategies;
 using SharpNeat.EvolutionAlgorithms.ComplexityRegulation;
 using SharpNEAT.Core;
 using System;
-
+/// <summary>
+/// 
+/// Script that controlls the evalution parameters such as population size,
+/// species count, inputs and outputs to the neural networks.
+/// 
+/// Reads the information from the experiment.config file where all this can be specified
+/// 
+/// </summary>
 public class SimpleExperiment : INeatExperiment
 {
 

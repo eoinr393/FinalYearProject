@@ -7,7 +7,14 @@ using SharpNeat.Decoders;
 using SharpNeat.Decoders.Neat;
 using System;
 using System.Xml;
-
+/// <summary>
+/// 
+/// Script to controll an evolved behaviour
+/// that is only using the network, not evolving it,
+/// specifically for the export prey screen.
+/// 
+/// --Eoin Raeside 04/2017
+/// </summary>
 public class PreviewExport : MonoBehaviour {
 
 	//SimpleExperiment experiment;

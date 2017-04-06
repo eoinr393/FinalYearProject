@@ -1,13 +1,22 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEditor;
+//using UnityEditor;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Xml;
 using System.Text;
 
+/// <summary>
+/// 
+/// Script for exporting both the selected creature, which includes
+/// the genome XML file, the creature controller with the creature traits,
+/// as well as the sharpNEAT files necassary for running these files in a 
+/// seperate Unity3D project
+/// 
+/// --Eoin Raeside 04/2017
+/// </summary>
 public class ExportCreature : MonoBehaviour {
 
 	private TextAsset skele;
@@ -95,25 +104,27 @@ public class ExportCreature : MonoBehaviour {
 			Debug.Log ("skele is null");
 	}
 
+	//class for getting all of the files from the sharpNEAT folder and copying them to the 
+	//right destination
 	void copySharpNEAT(string source, string dest){
 		DirectoryInfo dir = new DirectoryInfo(source);
 		DirectoryInfo[] dirs = dir.GetDirectories();
-
+		//create new folder
 		if(!File.Exists(dest)){
 			System.IO.Directory.CreateDirectory(dest);
 		}
-
+		//get files from directory and copy the files
 		FileInfo[] files = dir.GetFiles();
 		foreach (FileInfo file in files)
 		{
 			string temppath = Path.Combine(dest, file.Name);
 			file.CopyTo(temppath, false);
 		}
-			
+		//get directorys and copy directories
 		foreach (DirectoryInfo subs in dirs)
 		{
 			string newDest = Path.Combine(dest, subs.Name);
-			Debug.Log ("sub: "+ subs.FullName + " newdest: " + newDest);
+			//Debug.Log ("sub: "+ subs.FullName + " newdest: " + newDest);
 			copySharpNEAT(subs.FullName, newDest);
 		}
 

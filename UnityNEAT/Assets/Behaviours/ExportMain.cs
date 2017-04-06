@@ -7,6 +7,12 @@ using System.Runtime.Serialization.Formatters.Binary;
 using UnityEngine.SceneManagement;
 using System.Xml;
 
+/// <summary>
+/// 
+/// Script for controlling the UI 
+/// 
+/// --Eoin Raeside 04/2017
+/// </summary>
 public class ExportMain : MonoBehaviour {
 
 

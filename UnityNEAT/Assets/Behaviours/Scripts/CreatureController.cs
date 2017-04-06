@@ -22,14 +22,14 @@ public class CreatureController : UnitController {
 	IBlackBox box;
 
 	//scanning values
-	public int rayCount = 24;//number of rays
-	public float sightLength = 30;//length of ray
+	public int rayCount = 24;//number of raycasts
+	public float sightLength = 30;//length of raycast
 	public float fov = 15;//degrees between each raycast
 	private GameObject enemy;
 	public int searchObjectCount = 3;//how many different things the creature is looking for
 	float[] sensorVals;//values of all the raycasts
 	Quaternion startingAngle = Quaternion.AngleAxis(-65, Vector3.up);//angle to start the raycasts from
-	Quaternion raySpace;//spaces between the raycasts
+	Quaternion raySpace;//spaces between the raycasts, makes rays line up with creature
 
 	//evals
 	public int predatorHit = 0;
@@ -74,6 +74,8 @@ public class CreatureController : UnitController {
 		{
 			int rayCounter = 0;
 			// check for Predators
+			//creates multiple raycasts around the creature,
+			//if the raycast hits something its looking for, then add a value to the neural network inputs
 			RaycastHit hit;
 			Quaternion angle = transform.rotation * startingAngle;
 			Vector3 rayDir = angle * Vector3.forward;
@@ -143,48 +145,25 @@ public class CreatureController : UnitController {
 			ISignalArray outputArr = box.OutputSignalArray;
 
 
+			//how the creatures are controlled
+			float power = (float)outputArr [1] * 2 - 1;
+			float steering = (float)outputArr[0] * 2 - 1;
 
-			float steer = (float)outputArr[0] * 2 - 1;
-			float gas = (float)outputArr [1] * 2 - 1;
-
-
-			//Debug.Log ("steer :" + steer + " , out[0]: " + outputArr [0]); 
-			//Debug.Log ("gas :" + gas + " , out[1]: " + outputArr [1]); 
-
-			float moveDist = gas * Speed * Time.deltaTime;
-			float turnAngle = steer * TurnSpeed * Time.deltaTime * gas;
-
+			float forward = power * Speed * Time.deltaTime;
+			float turn = power * steering * TurnSpeed * Time.deltaTime ;
 			float possibleMax = maxSpeed * ((int)curstamina / stamina);//limit max speed based on stamina
 
 			//increase stamia
 			if (curstamina < stamina - curstamina / 10) {
-				curstamina += curstamina / 10;
+				curstamina += curstamina / 30;
 			}
-
-			transform.Rotate(new Vector3(0, turnAngle, 0));
-			transform.Translate(Vector3.forward * Mathf.Clamp(moveDist,0,possibleMax));
+			//turn creature and move forward
+			transform.Rotate(new Vector3(0, turn, 0));
+			transform.Translate(Vector3.forward * Mathf.Clamp(forward,0,possibleMax));
 
 			//decrease by amount moved
-
-			curstamina -= Mathf.Clamp (moveDist, 0, possibleMax) / 3;
+			curstamina -= Mathf.Clamp (forward, 0, possibleMax) / 3;
 		}
-	}
-
-	private ISignalArray insertNeuronValues(ISignalArray inputArr, SortedList<float,float> list){
-		int inputCount = 0;
-
-		int tempInt = -999;
-		while (list.Count < 3) {
-			list.Add (-tempInt, -999);
-			tempInt++;
-		}
-
-		for (int i = list.Count - 1; i > list.Count - 4; i--) {
-			inputArr [inputCount] = list.Keys [i];
-			inputArr [inputCount = + 1] = list.Values [i];
-			inputCount += 2;
-		}
-		return inputArr;
 	}
 
 	public override void Stop()
@@ -200,8 +179,7 @@ public class CreatureController : UnitController {
 
 	public override float GetFitness()
 	{
-		//float fit = foodEaten + (float)(survivedTime * 0.2) - (float)(WallHits * 0.2) - (predatorHit);
-		print("Food Eaten = " + foodEaten + " || Predator hits = " + predatorHit);
+		Debug.Log("Food Eaten = " + foodEaten + " || Predator hits = " + predatorHit);
 		float fit = foodEaten - (float)(WallHits * 0.5) - (predatorHit);
 
 		if (fit > 0) {

@@ -2,6 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// 
+///Component driven script for controlling prey
+/// 
+/// --Eoin Raeside 04/2017
+/// </summary>
 public class Prey : MonoBehaviour {
 
 	public float maxSpeed = 5.0f;

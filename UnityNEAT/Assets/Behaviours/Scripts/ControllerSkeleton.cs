@@ -7,6 +7,13 @@ using SharpNeat.Decoders;
 using SharpNeat.Decoders.Neat;
 using SharpNeat.Genomes.Neat;
 
+/// <summary>
+/// 
+/// Script to controll an evolved behaviour
+/// that is only using the network, not evolving it
+/// 
+/// --Eoin Raeside 04/2017
+/// </summary>
 public class ControllerSkeleton : MonoBehaviour {
 
 	public TextAsset ta;

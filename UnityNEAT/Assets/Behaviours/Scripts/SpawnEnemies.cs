@@ -1,7 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+/// <summary>
+/// 
+///Script for spawning enemies in a certain are
+/// 
+/// --Eoin Raeside 04/2017
+/// </summary>
 public class SpawnEnemies : MonoBehaviour {
 
 

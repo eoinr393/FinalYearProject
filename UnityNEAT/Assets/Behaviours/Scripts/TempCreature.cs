@@ -1,7 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+/// <summary>
+/// 
+/// Script to controll the behaviour for the temporary creature
+/// seen in the attribute selection scene
+/// 
+/// --Eoin Raeside 04/2017
+/// </summary>
 public class TempCreature : MonoBehaviour {
 
 	SelectionMenu refScript;

@@ -2,6 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// 
+/// Scritp for showing and controlling the UI for 
+/// when a user selects a creature on the evolution scene
+/// 
+/// --Eoin Raeside 04/2017
+/// </summary>
 public class SelectionGUI : MonoBehaviour {
 
 	public float groupWidth = 150;
@@ -21,6 +28,7 @@ public class SelectionGUI : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
+		//sends a raycast from the users mouse click down, if it hits a creature, show that creatures statistics
 		if (Input.GetMouseButtonDown(0)) {
 
 			RaycastHit hit;

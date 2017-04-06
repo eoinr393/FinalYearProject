@@ -2,6 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// 
+/// Component driven script for controlling creatures
+/// 
+/// --Eoin Raeside 04/2017
+/// </summary>
 public class Predator : MonoBehaviour {
 
 	public float maxSpeed = 5.0f;

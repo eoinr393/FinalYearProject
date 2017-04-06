@@ -2,6 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// 
+/// The purse behaviour used to make a creature 
+/// pursue another
+/// 
+/// --Eoin Raeside 04/2017
+/// </summary>
 public class Pursue : MonoBehaviour {
 
 	private float maxSpeed;

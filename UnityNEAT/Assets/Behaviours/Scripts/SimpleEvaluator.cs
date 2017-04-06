@@ -3,7 +3,10 @@ using System.Collections;
 using SharpNeat.Core;
 using SharpNeat.Phenomes;
 using System.Collections.Generic;
-
+/// <summary>
+/// controlls the evaluation of each generation of genome
+/// 
+/// </summary>
 public class SimpleEvaluator : IPhenomeEvaluator<IBlackBox> {
 
 	ulong _evalCount;

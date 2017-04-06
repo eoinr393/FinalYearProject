@@ -5,7 +5,13 @@ using System.IO;
 using UnityEngine.SceneManagement;
 using System.Text.RegularExpressions;
 
-
+/// <summary>
+/// 
+/// Script to controll an evolved behaviour
+/// that is only using the network, not evolving it
+/// 
+/// --Eoin Raeside 04/2017
+/// </summary>
 public class SelectionMenu : MonoBehaviour {
 
 	public float groupWidth = 300;
